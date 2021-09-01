@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Kerberos 协议 | Hexo</title>
+  <meta name="keywords" content=" 域渗透 , 内网 ">
+  <meta name="description" content="Kerberos 协议 | Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="FastjsonFastjson姿势技巧集合 说明持续更新，手工yyds。 探测用来探测目标版本，才能更好确定使用的payload。还可以用来区分fastjson和Jackjson。fastjson探测版本，还可以用错误格式的json发过去。如果对方异常未处理可报出详细版本。    主要是利用各个类被加入黑名单的方式进行判断 fastjson &gt;1.2.43 &amp;#123;&quot;@typ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastjson系列总结">
+<meta property="og:url" content="http://example.com/2021/08/31/Fastjson%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="FastjsonFastjson姿势技巧集合 说明持续更新，手工yyds。 探测用来探测目标版本，才能更好确定使用的payload。还可以用来区分fastjson和Jackjson。fastjson探测版本，还可以用错误格式的json发过去。如果对方异常未处理可报出详细版本。    主要是利用各个类被加入黑名单的方式进行判断 fastjson &gt;1.2.43 &amp;#123;&quot;@typ">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-08-31T05:48:04.000Z">
+<meta property="article:modified_time" content="2021-08-31T07:17:48.168Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="Fastjson">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Alex</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/SwagXz"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:1824582879@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(14)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="基础知识">
+                        
+                        基础知识
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="域渗透">
+                        
+                        域渗透
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+        <a 
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="14">
+<input type="hidden" id="yelog_site_word_count" value="24.1k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>工具</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>漏洞复现</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>逻辑漏洞</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>修复建议</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>应急响应</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>域渗透</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Fastjson</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Python</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SQL注入</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All "
+           href="/2021/08/31/Fastjson%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93/"
+           data-tag="Fastjson"
+           data-author="" >
+            <span class="post-title" title="Fastjson系列总结">Fastjson系列总结</span>
+            <span class="post-date" title="2021-08-31 13:48:04">2021/08/31</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/01/08/CVE-2020-15148Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E5%88%86%E6%9E%90%E4%B8%8E%E5%A4%8D%E7%8E%B0/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE-2020-15148Yii2反序列化RCE分析与复现">CVE-2020-15148Yii2反序列化RCE分析与复现</span>
+            <span class="post-date" title="2021-01-08 18:21:18">2021/01/08</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="SMBGhost命令执行漏洞">SMBGhost命令执行漏洞</span>
+            <span class="post-date" title="2020-12-31 13:55:33">2020/12/31</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE2020-1472漏洞复现">CVE2020-1472漏洞复现</span>
+            <span class="post-date" title="2020-11-19 17:31:29">2020/11/19</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/11/15/%E5%9F%BA%E4%BA%8E%E7%BB%BF%E7%9B%9F%E4%B8%8ENessus%E5%8E%9F%E5%A7%8B%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/"
+           data-tag="Python"
+           data-author="" >
+            <span class="post-title" title="基于绿盟与Nessus原始漏洞的快速处理">基于绿盟与Nessus原始漏洞的快速处理</span>
+            <span class="post-date" title="2020-11-15 20:46:32">2020/11/15</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/08/11/SQL%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/"
+           data-tag="SQL注入"
+           data-author="" >
+            <span class="post-title" title="SQL手工注入总结">SQL手工注入总结</span>
+            <span class="post-date" title="2020-08-11 10:58:58">2020/08/11</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/07/29/%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/"
+           data-tag="修复建议"
+           data-author="" >
+            <span class="post-title" title="修复方式总结">修复方式总结</span>
+            <span class="post-date" title="2020-07-29 09:49:17">2020/07/29</span>
+        </a>
+        
+        <a  class="All 域渗透 "
+           href="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/"
+           data-tag="域渗透,内网"
+           data-author="" >
+            <span class="post-title" title="Kerberos 协议">Kerberos 协议</span>
+            <span class="post-date" title="2020-07-06 10:25:07">2020/07/06</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/"
+           data-tag="Redis"
+           data-author="" >
+            <span class="post-title" title="Redis未授权访问总结">Redis未授权访问总结</span>
+            <span class="post-date" title="2020-06-20 11:25:11">2020/06/20</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/05/12/SQL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"
+           data-tag="SQL注入"
+           data-author="" >
+            <span class="post-title" title="SQL基础知识总结">SQL基础知识总结</span>
+            <span class="post-date" title="2020-05-12 10:42:50">2020/05/12</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/04/15/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E8%84%91%E5%9B%BE/"
+           data-tag="应急响应"
+           data-author="" >
+            <span class="post-title" title="应急响应脑图">应急响应脑图</span>
+            <span class="post-date" title="2020-04-15 10:20:57">2020/04/15</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/03/16/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/"
+           data-tag="工具"
+           data-author="" >
+            <span class="post-title" title="常用工具汇总">常用工具汇总</span>
+            <span class="post-date" title="2020-03-16 10:45:47">2020/03/16</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/02/07/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"
+           data-tag="逻辑漏洞"
+           data-author="" >
+            <span class="post-title" title="逻辑漏洞总结">逻辑漏洞总结</span>
+            <span class="post-date" title="2020-02-07 08:36:28">2020/02/07</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/02/05/Hexo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="Hexo基本操作">Hexo基本操作</span>
+            <span class="post-date" title="2020-02-05 13:18:26">2020/02/05</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Kerberos 协议" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Kerberos 协议</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="域渗透">域渗透</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">域渗透</a>
+            
+            <a class="color3">内网</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2020-09-07 11:11:30'>2020-07-06 10:25</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:1.1k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kerberos-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D"><span class="toc-text">Kerberos 协议介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kerberos%E5%8D%8F%E8%AE%AE%E6%A1%86%E6%9E%B6"><span class="toc-text">Kerberos协议框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B"><span class="toc-text">认证流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-The-Authentication-Service-Exchange"><span class="toc-text">(1) The Authentication Service Exchange</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#KRB-AS-REQ"><span class="toc-text">KRB_AS_REQ:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KBR-AS-REP"><span class="toc-text">KBR_AS_REP:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-The-Ticket-Granting-Service-TGS-Exchange"><span class="toc-text">(2) The Ticket Granting Service(TGS) Exchange</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#KBR-TGS-REQ"><span class="toc-text">KBR_TGS_REQ:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KBR-TGS-REP"><span class="toc-text">KBR_TGS-REP:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-The-Client-Server-Authentication-Exchange"><span class="toc-text">(3) The Client&#x2F;Server Authentication Exchange</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#KBR-AP-REQ"><span class="toc-text">KBR_AP_REQ:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KBR-AP-REP"><span class="toc-text">KBR_AP_REP:</span></a></li></ol></li></ol></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><strong>原文链接：</strong><a target="_blank" rel="noopener" href="https://wiki.0-sec.org/#/md">https://wiki.0-sec.org/#/md</a></p>
+</blockquote>
+<h2 id="Kerberos-协议介绍"><a href="#Kerberos-协议介绍" class="headerlink" title="Kerberos 协议介绍"></a>Kerberos 协议介绍</h2><p>Kerberos 是一种网络认证协议，其设计目标是通过密钥系统为客户机/服务器应用程序 提供强大的认证服务。该认证过程的实现不依赖于主机操作系统的认证，无需基于主机地址 的信任，不要求网络上所有主机的物理安全，并假定网络上传送的数据包可以被任意的读取、 修改和插入数据。在以上情况下，Kerberos 作为一种可信任的第三方认证服务，是通过传统 的密码技术(如:共享密钥)执行认证服务的。</p>
+<h2 id="Kerberos协议框架"><a href="#Kerberos协议框架" class="headerlink" title="Kerberos协议框架"></a>Kerberos协议框架</h2><p>Kerberos 协议中主要有三个角色:</p>
+<ul>
+<li>访问服务的 Client</li>
+<li>提供服务的 Server</li>
+<li>KDC(Key Distribution Center)密钥分发中心</li>
+</ul>
+<p>KDC 默认安装在域控中，而 Client 和 Server 为域内的用户或者服务，如 web 应用、数<br>据库服务器和邮件服务器等。Client 是否有权限访问 Server 端的服务由 KDC 发放的票据来 决定。</p>
+<p>如果把 Kerberos 中的票据比作一张火车票，那么 Client 端就是乘客，Server 就是火车， 而 KDC 就是火车站的认证系统。如果 Client 端的票据是合法的(由你本人身份证购买并且 由你本人持有)同时有访问 Server 端服务的权限(车票对应车次正确)那么你才能上车。当 然和火车票不同的是 Kerberos 中有两张票据，而火车票只有一张。</p>
+<p><img src="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/1.png" alt="image"></p>
+<p>由上图可以看出，KDC 又分为两个部分:</p>
+<blockquote>
+<p>Authentication Server:</p>
+</blockquote>
+<p>AS 的作用就是验证 Client 的身份(确认你是身份证上的本人)，<br>验证通过就给一张 TGT(Ticket Granting Ticket)票给 Client。</p>
+<blockquote>
+<p>Ticket Granting Server:</p>
+</blockquote>
+<p>TGS 的作用就是通过 AS 发给 Client 的票(TGT)换取访问 Server<br>端的票 ST(Server Ticket)。ST 也有资料称之为 TGS Ticket。</p>
+<p><img src="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/2.png" alt="image"></p>
+<h2 id="认证流程"><a href="#认证流程" class="headerlink" title="认证流程"></a>认证流程</h2><p>当 Client 想要访问 Server 上的某个服务时，需要先向 AS 证明自己的身份，然后通过 AS 发放的 TGT 向 Server 发起认证请求，这个过程分为三块:</p>
+<ul>
+<li>The Authentication Service Exchange: Client 与 AS 的交互</li>
+<li>The Ticket Granting Service Exchange:Client 与 TGS 的交互</li>
+<li>The Client/Server Authentication Exchange:Client 与 Server 的交互</li>
+</ul>
+<p><img src="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/3.png" alt="image"></p>
+<h4 id="1-The-Authentication-Service-Exchange"><a href="#1-The-Authentication-Service-Exchange" class="headerlink" title="(1) The Authentication Service Exchange"></a>(1) The Authentication Service Exchange</h4><h5 id="KRB-AS-REQ"><a href="#KRB-AS-REQ" class="headerlink" title="KRB_AS_REQ:"></a>KRB_AS_REQ:</h5><blockquote>
+<p>Client-&gt;AS:发送 Authenticator1(Client 密码加密 TimeStamp)</p>
+</blockquote>
+<p>第一步 Client 先向 KDC 的 AS 发送 Authenticator1,内容为通过 Client 密码 hash 加密的时间戳、Client ID、网络地址、加密类型等内容。</p>
+<h5 id="KBR-AS-REP"><a href="#KBR-AS-REP" class="headerlink" title="KBR_AS_REP:"></a>KBR_AS_REP:</h5><blockquote>
+<p>AS-&gt;Client:发送 Client 密码加密的 sessionkey-as 和票据 TGT(KBRTGT HASH 加密的 sesionkey-as 和 Timestamp)</p>
+</blockquote>
+<p>在 KDC 中存储了域中所有用户的密码 hash，当 AS 接受到 Client 的请求后会根据 KDC 中存储的密码来解密，解密成功并且验证信息。验证成功后返回给 Client 由 Client 密码 hash 加密的 sessionkey-as 和 TGT(由 KBRTGT HASH 加密的 sessionkey-as 和 Timestamp 等信 息)。</p>
+<p><img src="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/4.png" alt="image"></p>
+<h4 id="2-The-Ticket-Granting-Service-TGS-Exchange"><a href="#2-The-Ticket-Granting-Service-TGS-Exchange" class="headerlink" title="(2) The Ticket Granting Service(TGS) Exchange"></a>(2) The Ticket Granting Service(TGS) Exchange</h4><h5 id="KBR-TGS-REQ"><a href="#KBR-TGS-REQ" class="headerlink" title="KBR_TGS_REQ:"></a>KBR_TGS_REQ:</h5><blockquote>
+<p>Client-&gt;TGS 发送 Authenticator2(sessionkey-as 加密 timestamp)和票据 TGT(KBRTGT HASH 加密的 sessionkey-as 和 timestamp)</p>
+</blockquote>
+<p>Client 接收到了加密的 sessionkey-as 和 TGT 后，用自身的密码解密得到 sessionkey-as， TGT 是 KDC 密码加密的，Client 无法解密。这时 Client 再用 sessionkey-as 加密 timestamp 和 TGT 一起发送给 KDC 中的 TGS(Ticket Granting Server)票据授权服务器换取能够访问 Server 的票据。</p>
+<h5 id="KBR-TGS-REP"><a href="#KBR-TGS-REP" class="headerlink" title="KBR_TGS-REP:"></a>KBR_TGS-REP:</h5><blockquote>
+<p>TGS-&gt;Client:发送密文(由 sessionkey-as 加密的 sessionkey-tgs)和票据 ST(由 server 密 码 hash 加密的 sessionkey-tgs)</p>
+</blockquote>
+<p>TGS 收到 Client 发送过来的 TGT 和 Sessionkey-as 加密的 TimeStamp 之后，首先会检 查自身是否存在 Client 所请求的服务。如果服务存在，则用 KRBTGT 密码解密 TGT。一般情 况下 TGS 会检查 TGT 中的时间戳查看 TGT 是否过期，且原始地址是否和 TGT 中保存的地址 相同。验证成功之后将用 sessionkey-as 加密的 sessionkey-tgs 和 Server 密码 HASH 加密的 Sessionkey-tgs 发送给 Client。</p>
+<p><img src="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/5.png" alt="image"></p>
+<h4 id="3-The-Client-Server-Authentication-Exchange"><a href="#3-The-Client-Server-Authentication-Exchange" class="headerlink" title="(3) The Client/Server Authentication Exchange"></a>(3) The Client/Server Authentication Exchange</h4><h5 id="KBR-AP-REQ"><a href="#KBR-AP-REQ" class="headerlink" title="KBR_AP_REQ:"></a>KBR_AP_REQ:</h5><blockquote>
+<p>Client-&gt;Server 发送 Authenticator3(sessionkey-tgs 加密 timestamp)和票据 ST(Server 密码 hash 加密的 sessionkey-tgs)</p>
+</blockquote>
+<p>Client 收到 sessionkey-as 加密的 sessionkey-tgs 和 Server 密码 hash 加密的 sessionkey- tgs 之后用 sessionkey-as 解密得到 sessionkey-tgs，然后把 sessionkey-tgs 加密的 timestamp 和 ST 一起发送给 Server。</p>
+<h5 id="KBR-AP-REP"><a href="#KBR-AP-REP" class="headerlink" title="KBR_AP_REP:"></a>KBR_AP_REP:</h5><blockquote>
+<p>Server-&gt;Client :</p>
+</blockquote>
+<p>Server 通过自己的密码解密 ST，得到 sessionkey-tgs，再用 sessionkey-tgs 解密 Authenticator3 得到 timestamp，验证正确返回验证成功。</p>
+<p><img src="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/6.png" alt="image"></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2020-2021 Alex
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

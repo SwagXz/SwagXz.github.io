@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hexo</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="FastjsonFastjson姿势技巧集合 说明持续更新，手工yyds。 探测用来探测目标版本，才能更好确定使用的payload。还可以用来区分fastjson和Jackjson。fastjson探测版本，还可以用错误格式的json发过去。如果对方异常未处理可报出详细版本。    主要是利用各个类被加入黑名单的方式进行判断 fastjson &gt;1.2.43 &amp;#123;&quot;@typ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastjson系列总结">
+<meta property="og:url" content="http://example.com/2021/08/31/Fastjson%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="FastjsonFastjson姿势技巧集合 说明持续更新，手工yyds。 探测用来探测目标版本，才能更好确定使用的payload。还可以用来区分fastjson和Jackjson。fastjson探测版本，还可以用错误格式的json发过去。如果对方异常未处理可报出详细版本。    主要是利用各个类被加入黑名单的方式进行判断 fastjson &gt;1.2.43 &amp;#123;&quot;@typ">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-08-31T05:48:04.000Z">
+<meta property="article:modified_time" content="2021-08-31T07:17:48.168Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="Fastjson">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav mobile">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Alex</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/SwagXz"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:1824582879@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(14)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="基础知识">
+                        
+                        基础知识
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="域渗透">
+                        
+                        域渗透
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+        <a 
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="14">
+<input type="hidden" id="yelog_site_word_count" value="24.1k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>工具</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>漏洞复现</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>逻辑漏洞</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>修复建议</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>应急响应</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>域渗透</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Fastjson</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Python</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SQL注入</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All "
+           href="/2021/08/31/Fastjson%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93/"
+           data-tag="Fastjson"
+           data-author="" >
+            <span class="post-title" title="Fastjson系列总结">Fastjson系列总结</span>
+            <span class="post-date" title="2021-08-31 13:48:04">2021/08/31</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/01/08/CVE-2020-15148Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E5%88%86%E6%9E%90%E4%B8%8E%E5%A4%8D%E7%8E%B0/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE-2020-15148Yii2反序列化RCE分析与复现">CVE-2020-15148Yii2反序列化RCE分析与复现</span>
+            <span class="post-date" title="2021-01-08 18:21:18">2021/01/08</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="SMBGhost命令执行漏洞">SMBGhost命令执行漏洞</span>
+            <span class="post-date" title="2020-12-31 13:55:33">2020/12/31</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE2020-1472漏洞复现">CVE2020-1472漏洞复现</span>
+            <span class="post-date" title="2020-11-19 17:31:29">2020/11/19</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/11/15/%E5%9F%BA%E4%BA%8E%E7%BB%BF%E7%9B%9F%E4%B8%8ENessus%E5%8E%9F%E5%A7%8B%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/"
+           data-tag="Python"
+           data-author="" >
+            <span class="post-title" title="基于绿盟与Nessus原始漏洞的快速处理">基于绿盟与Nessus原始漏洞的快速处理</span>
+            <span class="post-date" title="2020-11-15 20:46:32">2020/11/15</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/08/11/SQL%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/"
+           data-tag="SQL注入"
+           data-author="" >
+            <span class="post-title" title="SQL手工注入总结">SQL手工注入总结</span>
+            <span class="post-date" title="2020-08-11 10:58:58">2020/08/11</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/07/29/%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/"
+           data-tag="修复建议"
+           data-author="" >
+            <span class="post-title" title="修复方式总结">修复方式总结</span>
+            <span class="post-date" title="2020-07-29 09:49:17">2020/07/29</span>
+        </a>
+        
+        <a  class="All 域渗透 "
+           href="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/"
+           data-tag="域渗透,内网"
+           data-author="" >
+            <span class="post-title" title="Kerberos 协议">Kerberos 协议</span>
+            <span class="post-date" title="2020-07-06 10:25:07">2020/07/06</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/"
+           data-tag="Redis"
+           data-author="" >
+            <span class="post-title" title="Redis未授权访问总结">Redis未授权访问总结</span>
+            <span class="post-date" title="2020-06-20 11:25:11">2020/06/20</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/05/12/SQL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"
+           data-tag="SQL注入"
+           data-author="" >
+            <span class="post-title" title="SQL基础知识总结">SQL基础知识总结</span>
+            <span class="post-date" title="2020-05-12 10:42:50">2020/05/12</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/04/15/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E8%84%91%E5%9B%BE/"
+           data-tag="应急响应"
+           data-author="" >
+            <span class="post-title" title="应急响应脑图">应急响应脑图</span>
+            <span class="post-date" title="2020-04-15 10:20:57">2020/04/15</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/03/16/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/"
+           data-tag="工具"
+           data-author="" >
+            <span class="post-title" title="常用工具汇总">常用工具汇总</span>
+            <span class="post-date" title="2020-03-16 10:45:47">2020/03/16</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/02/07/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"
+           data-tag="逻辑漏洞"
+           data-author="" >
+            <span class="post-title" title="逻辑漏洞总结">逻辑漏洞总结</span>
+            <span class="post-date" title="2020-02-07 08:36:28">2020/02/07</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/02/05/Hexo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="Hexo基本操作">Hexo基本操作</span>
+            <span class="post-date" title="2020-02-05 13:18:26">2020/02/05</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post" class="index">
+    <div class="pjax">
+        <article class="index">
+            <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%8F%8A%E7%BD%91%E7%AB%99"><span class="toc-text">常用工具及网站</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%82%E9%A1%B9"><span class="toc-text">杂项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%AF%94%E8%BE%83%E6%9C%89%E7%94%A8%E7%9A%84burp%E6%8F%92%E4%BB%B6"><span class="toc-text">一些比较有用的burp插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F"><span class="toc-text">自动化扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94"><span class="toc-text">应急响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E8%A7%A3%E5%AF%86%E6%9F%A5%E8%AF%A2%EF%BC%9A"><span class="toc-text">勒索病毒解密查询：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E5%85%B8payload%E3%80%81fuzz"><span class="toc-text">字典payload、fuzz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WAF%E7%BB%95%E8%BF%87"><span class="toc-text">WAF绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-text">提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="toc-text">内网渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E9%9A%A7%E9%81%93%EF%BC%9A"><span class="toc-text">内网隧道：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%9A"><span class="toc-text">内网信息收集：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%8D%E6%9D%80%E7%9B%B8%E5%85%B3"><span class="toc-text">免杀相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%9F%E6%B8%97%E9%80%8F"><span class="toc-text">域渗透</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E5%88%86CVE-POC"><span class="toc-text">部分CVE POC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E4%B8%AD%E9%97%B4%E4%BB%B6Exp"><span class="toc-text">Java 中间件Exp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0"><span class="toc-text">Java安全学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="toc-text">代码审计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%A9%E7%94%A8"><span class="toc-text">数据库利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Webshell%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-text">Webshell管理工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#APP-%E6%B5%8B%E8%AF%95"><span class="toc-text">APP 测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%97%E9%80%8F%E8%BE%85%E5%8A%A9%E5%B9%B3%E5%8F%B0-%E5%B7%A5%E5%85%B7"><span class="toc-text">渗透辅助平台&#x2F;工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B2%E6%96%B9%E5%AE%89%E5%85%A8"><span class="toc-text">甲方安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86"><span class="toc-text">其他知识整理</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+            <h1 id="常用工具及网站"><a href="#常用工具及网站" class="headerlink" title="常用工具及网站"></a>常用工具及网站</h1><blockquote>
+<p>开源扫描器收录地址：<a target="_blank" rel="noopener" href="https://github.com/We5ter/Scanners-Box">https://github.com/We5ter/Scanners-Box</a></p>
+<p>CISP文库：<a target="_blank" rel="noopener" href="https://wiki.cisp-pte.com/#/wiki">https://wiki.cisp-pte.com/#/wiki</a></p>
+<p>t00ls：<a target="_blank" rel="noopener" href="https://www.t00ls.net/">https://www.t00ls.net/</a></p>
+<p>渗透师导航：<a target="_blank" rel="noopener" href="https://www.shentoushi.top/">https://www.shentoushi.top/</a> </p>
+<p>信息收集工具集：<a target="_blank" rel="noopener" href="https://github.com/redhuntlabs/Awesome-Asset-Discovery">https://github.com/redhuntlabs/Awesome-Asset-Discovery</a></p>
+<p>K8工具集： <a target="_blank" rel="noopener" href="https://github.com/k8gege/K8tools">https://github.com/k8gege/K8tools</a></p>
+<p>APP测试：<a target="_blank" rel="noopener" href="https://github.com/Brucetg/App_Security">https://github.com/Brucetg/App_Security</a></p>
+<p>红队资源链接合集（干货超多）：<a target="_blank" rel="noopener" href="https://github.com/hudunkey/Red-Team-links">https://github.com/hudunkey/Red-Team-links</a></p>
+<p>另一个工具+EXP合集：<a target="_blank" rel="noopener" href="https://github.com/Mr-xn/Penetration_Testing_POC/">https://github.com/Mr-xn/Penetration_Testing_POC/</a></p>
+</blockquote>
+<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><ul>
+<li>java 无文件webshell：<a target="_blank" rel="noopener" href="https://github.com/rebeyond/memShell">https://github.com/rebeyond/memShell</a></li>
+<li>瑞士军刀Bettercap：<a target="_blank" rel="noopener" href="https://github.com/bettercap/bettercap">https://github.com/bettercap/bettercap</a>  </li>
+<li>XSS批量扫描，源自先知：<a target="_blank" rel="noopener" href="https://github.com/bsmali4/xssfork">https://github.com/bsmali4/xssfork</a>  </li>
+<li>个人收集编写的POC：</li>
+</ul>
+<ol>
+<li>跨站数据劫持POC <a target="_blank" rel="noopener" href="https://github.com/nccgroup/CrossSiteContentHijacking">https://github.com/nccgroup/CrossSiteContentHijacking</a></li>
+<li>自动化测试工具，POC在script路径下 <a target="_blank" rel="noopener" href="https://github.com/Xyntax/POC-T/tree/master">https://github.com/Xyntax/POC-T/tree/master</a></li>
+</ol>
+<ul>
+<li>收集各种语言的webshell：<a target="_blank" rel="noopener" href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a>  </li>
+<li>XXE注入工具 Ruby编写：<a target="_blank" rel="noopener" href="https://github.com/enjoiz/XXEinjector">https://github.com/enjoiz/XXEinjector</a></li>
+<li>xxe 测试工具：<a target="_blank" rel="noopener" href="https://github.com/TheTwitchy/xxer">https://github.com/TheTwitchy/xxer</a></li>
+<li>burp AES加密插件：<a target="_blank" rel="noopener" href="https://github.com/Ebryx/AES-Killer">https://github.com/Ebryx/AES-Killer</a></li>
+<li>XXE payload生成：<a target="_blank" rel="noopener" href="https://github.com/BuffaloWill/oxml_xxe/">https://github.com/BuffaloWill/oxml_xxe/</a>  </li>
+<li>Nginx 路径穿越burp测试插件：<a target="_blank" rel="noopener" href="https://github.com/bayotop/off-by-slash">https://github.com/bayotop/off-by-slash</a></li>
+<li>红队自动化部署：<a target="_blank" rel="noopener" href="https://github.com/360-A-Team/LuWu">https://github.com/360-A-Team/LuWu</a></li>
+<li>JS反混淆：<a target="_blank" rel="noopener" href="https://github.com/mindedsecurity/JStillery">https://github.com/mindedsecurity/JStillery</a></li>
+</ul>
+<h2 id="一些比较有用的burp插件"><a href="#一些比较有用的burp插件" class="headerlink" title="一些比较有用的burp插件"></a>一些比较有用的burp插件</h2><ul>
+<li>基于规则匹配的高亮信息标记插件： <a target="_blank" rel="noopener" href="https://github.com/gh0stkey/HaE">https://github.com/gh0stkey/HaE</a></li>
+<li>添加一些burp右键菜单（Unicode解码、添加常用payload、筛除无关网站等） <a target="_blank" rel="noopener" href="https://github.com/bit4woo/knife">https://github.com/bit4woo/knife</a></li>
+<li>HW打点资产管理 <a target="_blank" rel="noopener" href="https://github.com/bit4woo/domain_hunter_pro">https://github.com/bit4woo/domain_hunter_pro</a></li>
+<li>配合被动漏扫的插件： <a target="_blank" rel="noopener" href="https://github.com/c0ny1/passive-scan-client">https://github.com/c0ny1/passive-scan-client</a></li>
+<li>破解前端加密： <a target="_blank" rel="noopener" href="https://github.com/c0ny1/jsEncrypter">https://github.com/c0ny1/jsEncrypter</a></li>
+<li>自动化扫描shiro漏洞： <a target="_blank" rel="noopener" href="https://github.com/pmiaowu/BurpShiroPassiveScan">https://github.com/pmiaowu/BurpShiroPassiveScan</a></li>
+<li>结合API对验证码进行识别（可搭配muggle-ocr库食用） <a target="_blank" rel="noopener" href="https://github.com/c0ny1/captcha-killer">https://github.com/c0ny1/captcha-killer</a></li>
+<li>自动扫描网页中的链接（可在插件商店下载） <a target="_blank" rel="noopener" href="https://github.com/GerbenJavado/LinkFinder">https://github.com/GerbenJavado/LinkFinder</a></li>
+<li>针对webservice（wsdl接口）生成poc测试（插件商店有，在装不上时可以直接下载release版本） <a target="_blank" rel="noopener" href="https://github.com/NetSPI/Wsdler">https://github.com/NetSPI/Wsdler</a></li>
+<li>方便筛选和记录burp流量的插件（可在插件商店下载）：<a target="_blank" rel="noopener" href="https://github.com/nccgroup/LoggerPlusPlus">https://github.com/nccgroup/LoggerPlusPlus</a></li>
+</ul>
+<h2 id="自动化扫描"><a href="#自动化扫描" class="headerlink" title="自动化扫描"></a>自动化扫描</h2><ul>
+<li>SN1PER（功能：扫描开放端口、waf、指纹识别、目录扫描）：<a target="_blank" rel="noopener" href="https://github.com/1N3/Sn1per">https://github.com/1N3/Sn1per</a> </li>
+<li>web页面直接调用工具（dirsearch、masscan、amass、patator）扫描：<a target="_blank" rel="noopener" href="https://github.com/c0rvax/project-black">https://github.com/c0rvax/project-black</a> </li>
+<li>自动化扫描网站的CORS配置的漏洞：<a target="_blank" rel="noopener" href="https://github.com/chenjj/CORScanner">https://github.com/chenjj/CORScanner</a> </li>
+<li>长亭X-ray漏洞扫描器：<a target="_blank" rel="noopener" href="https://github.com/chaitin/xray/">https://github.com/chaitin/xray/</a></li>
+<li>美杜莎漏扫：<a target="_blank" rel="noopener" href="https://github.com/Ascotbe/Medusa">https://github.com/Ascotbe/Medusa</a></li>
+<li>w13scan：<a target="_blank" rel="noopener" href="https://github.com/w-digital-scanner/w13scan">https://github.com/w-digital-scanner/w13scan</a></li>
+<li>利用github action 进行自动化扫描：<a target="_blank" rel="noopener" href="https://github.com/inbug-team/InCloud">https://github.com/inbug-team/InCloud</a></li>
+<li>集成了fofa、漏洞扫描、web指纹等多个扫描功能：<a target="_blank" rel="noopener" href="https://github.com/P1-Team/AlliN">https://github.com/P1-Team/AlliN</a></li>
+</ul>
+<h2 id="应急响应"><a href="#应急响应" class="headerlink" title="应急响应"></a>应急响应</h2><ul>
+<li>应急响应工具集：<a target="_blank" rel="noopener" href="https://github.com/meirwah/awesome-incident-response">https://github.com/meirwah/awesome-incident-response</a></li>
+<li>应急实战笔记：<a target="_blank" rel="noopener" href="https://github.com/Bypass007/Emergency-Response-Notes">https://github.com/Bypass007/Emergency-Response-Notes</a></li>
+<li>进程查看：<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/process-explorer">https://docs.microsoft.com/zh-cn/sysinternals/downloads/process-explorer</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/processhacker/processhacker">https://github.com/processhacker/processhacker</a><h2 id="勒索病毒解密查询："><a href="#勒索病毒解密查询：" class="headerlink" title="勒索病毒解密查询："></a>勒索病毒解密查询：</h2></li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://www.nomoreransom.org/crypto-sheriff.php">https://www.nomoreransom.org/crypto-sheriff.php</a></li>
+<li>奇安信：<a target="_blank" rel="noopener" href="https://lesuobingdu.qianxin.com/">https://lesuobingdu.qianxin.com/</a></li>
+<li>VenusEye：<a target="_blank" rel="noopener" href="https://lesuo.venuseye.com.cn/">https://lesuo.venuseye.com.cn/</a></li>
+<li>深信服：<a target="_blank" rel="noopener" href="https://edr.sangfor.com.cn/#/information/ransom_search">https://edr.sangfor.com.cn/#/information/ransom_search</a></li>
+<li>360：<a target="_blank" rel="noopener" href="https://lesuobingdu.360.cn/">https://lesuobingdu.360.cn/</a></li>
+<li>腾讯：<a target="_blank" rel="noopener" href="https://guanjia.qq.com/pr/ls/">https://guanjia.qq.com/pr/ls/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jiansiting/Decryption-Tools">https://github.com/jiansiting/Decryption-Tools</a></li>
+</ul>
+<h2 id="字典payload、fuzz"><a href="#字典payload、fuzz" class="headerlink" title="字典payload、fuzz"></a>字典payload、fuzz</h2><ul>
+<li>弱口令字典：<a target="_blank" rel="noopener" href="https://weakpass.com/">https://weakpass.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/7hang/Fuzz_dic">https://github.com/7hang/Fuzz_dic</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/swisskyrepo/PayloadsAllTheThings">https://github.com/swisskyrepo/PayloadsAllTheThings</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/berzerk0/Probable-Wordlists">https://github.com/berzerk0/Probable-Wordlists</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://github.com/danielmiessler/SecLists">https://github.com/danielmiessler/SecLists</a>  </li>
+<li>文件上传时文件名fuzz：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/upload-fuzz-dic-builder">https://github.com/c0ny1/upload-fuzz-dic-builder</a></li>
+<li>robots.txt 不允许访问的目录：<a target="_blank" rel="noopener" href="https://github.com/danielmiessler/RobotsDisallowed">https://github.com/danielmiessler/RobotsDisallowed</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/TheKingOfDuck/fuzzDicts">https://github.com/TheKingOfDuck/fuzzDicts</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/1N3/IntruderPayloads">https://github.com/1N3/IntruderPayloads</a> （burp_payload）</li>
+<li>网站暴破+xss+sqli：<a target="_blank" rel="noopener" href="https://github.com/SilverPoision/a-full-list-of-wordlists/tree/master/Wordlists/burp_pack">https://github.com/SilverPoision/a-full-list-of-wordlists/tree/master/Wordlists/burp_pack</a> </li>
+<li>键盘组合、字母+数字混合密码暴破：<a target="_blank" rel="noopener" href="https://github.com/huyuanzhi2/password_brute_dictionary">https://github.com/huyuanzhi2/password_brute_dictionary</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ppbibo/PentesterSpecialDict">https://github.com/ppbibo/PentesterSpecialDict</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/r35tart/RW_Password">https://github.com/r35tart/RW_Password</a></li>
+<li>假名生成器:<a target="_blank" rel="noopener" href="https://github.com/joke2k/faker">https://github.com/joke2k/faker</a></li>
+</ul>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ul>
+<li>在线协作markdown，可用于团队内部信息共享（可在离线环境搭建）：<a target="_blank" rel="noopener" href="https://github.com/hackmdio/codimd">https://github.com/hackmdio/codimd</a></li>
+<li>FOFA浏览器插件：<a target="_blank" rel="noopener" href="https://github.com/fofapro/fofa_view">https://github.com/fofapro/fofa_view</a></li>
+<li>WAF指纹识别及Bypass <a target="_blank" rel="noopener" href="https://github.com/Ekultek/WhatWaf">https://github.com/Ekultek/WhatWaf</a></li>
+<li>带截图go语言脚本扫描端口： <a target="_blank" rel="noopener" href="https://github.com/michenriksen/aquatone">https://github.com/michenriksen/aquatone</a></li>
+<li>wfuzz：<a target="_blank" rel="noopener" href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></li>
+<li>可用于host头碰撞或者各种fuzz：<a target="_blank" rel="noopener" href="https://github.com/ffuf/ffuf">https://github.com/ffuf/ffuf</a></li>
+<li>host头碰撞：<a target="_blank" rel="noopener" href="https://github.com/fofapro/Hosts_scan">https://github.com/fofapro/Hosts_scan</a></li>
+<li>.git、.svn和.DS_Store利用：<a target="_blank" rel="noopener" href="https://github.com/0xHJK/dumpall">https://github.com/0xHJK/dumpall</a></li>
+<li>指纹识别：<ul>
+<li><a target="_blank" rel="noopener" href="https://www.yunsee.cn/">https://www.yunsee.cn/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.godeye.vip/">https://www.godeye.vip/</a></li>
+</ul>
+</li>
+<li>集成了<a target="_blank" rel="noopener" href="https://gh0st.cn/HaE/">HaE</a>的规则的浏览器插件：<a target="_blank" rel="noopener" href="https://github.com/ResidualLaugh/FindSomething">https://github.com/ResidualLaugh/FindSomething</a></li>
+<li>目录扫描工具：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a></li>
+<li>caesar（自带扫描字典，原版已被删除）：<a target="_blank" rel="noopener" href="https://github.com/zhanglei/Caesar">https://github.com/zhanglei/Caesar</a></li>
+</ul>
+</li>
+<li>JSFinder：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Threezh1/JSFinder">https://github.com/Threezh1/JSFinder</a></li>
+<li>基于TamperMonkey的版本：<a target="_blank" rel="noopener" href="https://github.com/Threezh1/Deconstruct/blob/main/DevTools_JSFinder/JSFinder.js">https://github.com/Threezh1/Deconstruct/blob/main/DevTools_JSFinder/JSFinder.js</a></li>
+</ul>
+</li>
+<li>子域名收集：<ul>
+<li>基于企业备案信息查询：<a target="_blank" rel="noopener" href="https://github.com/canc3s/cDomain">https://github.com/canc3s/cDomain</a></li>
+<li>根据SSL证书收集子域名：<a target="_blank" rel="noopener" href="https://github.com/yassineaboukir/sublert">https://github.com/yassineaboukir/sublert</a></li>
+<li>python脚本+mangodb实时监控：<a target="_blank" rel="noopener" href="https://github.com/guimaizi/get_domain">https://github.com/guimaizi/get_domain</a></li>
+<li>可发现二级、三级子域名：<a target="_blank" rel="noopener" href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a></li>
+<li>asyncio+aiodns大字典暴破子域名 <a target="_blank" rel="noopener" href="https://github.com/ldbfpiaoran/subdns">https://github.com/ldbfpiaoran/subdns</a></li>
+<li>基于Python3.8，可以通过多种API来获取并验证子域名： <a target="_blank" rel="noopener" href="https://github.com/shmilylty/OneForAll">https://github.com/shmilylty/OneForAll</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="WAF绕过"><a href="#WAF绕过" class="headerlink" title="WAF绕过"></a>WAF绕过</h2><ul>
+<li>MYSQL_SQL注入: <a target="_blank" rel="noopener" href="https://github.com/aleenzz/MYSQL_SQL_BYPASS_WIKI">https://github.com/aleenzz/MYSQL_SQL_BYPASS_WIKI</a></li>
+<li>waf指纹字典及绕过方式：<a target="_blank" rel="noopener" href="https://github.com/0xInfection/Awesome-WAF">https://github.com/0xInfection/Awesome-WAF</a>  </li>
+<li>waf识别脚本：<a target="_blank" rel="noopener" href="https://github.com/stamparm/identYwaf">https://github.com/stamparm/identYwaf</a></li>
+<li>自动化绕WAF：<a target="_blank" rel="noopener" href="https://github.com/khalilbijjou/WAFNinja">https://github.com/khalilbijjou/WAFNinja</a></li>
+</ul>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><ol>
+<li>Windows</li>
+</ol>
+<ul>
+<li>windows提权在线辅助：<a target="_blank" rel="noopener" href="http://bugs.hacking8.com/tiquan/">http://bugs.hacking8.com/tiquan/</a></li>
+<li>windows内核提权EXP：<a target="_blank" rel="noopener" href="https://github.com/SecWiki/windows-kernel-exploits">https://github.com/SecWiki/windows-kernel-exploits</a></li>
+<li>windows系统提权脚本： <a target="_blank" rel="noopener" href="https://github.com/AonCyberLabs/Windows-Exploit-Suggester">https://github.com/AonCyberLabs/Windows-Exploit-Suggester</a></li>
+<li>windows exp提权：<a target="_blank" rel="noopener" href="https://github.com/lyshark/Windows-exploits">https://github.com/lyshark/Windows-exploits</a></li>
+<li>potato：可能会被杀<ul>
+<li>JuicyPotato：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/uknowsec/JuicyPotato">https://github.com/uknowsec/JuicyPotato</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/EddieIvan01/win32api-practice/tree/f6db1f800c411db1401d6f60eee708b038a60277/juicy-potato-webshell">https://github.com/EddieIvan01/win32api-practice/tree/f6db1f800c411db1401d6f60eee708b038a60277/juicy-potato-webshell</a></li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/uknowsec/SweetPotato">https://github.com/uknowsec/SweetPotato</a></li>
+<li>域提权：<a target="_blank" rel="noopener" href="https://github.com/antonioCoco/RemotePotato0">https://github.com/antonioCoco/RemotePotato0</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/EddieIvan01/win32api-practice/tree/f6db1f800c411db1401d6f60eee708b038a60277/PrintSpoofer-webshell">PipePotato</a></li>
+</ul>
+</li>
+<li>通过窃取<code>system</code>权限进程的token来创建一个具有<code>system</code>权限的进程来执行命令：<a target="_blank" rel="noopener" href="https://github.com/uknowsec/getSystem">https://github.com/uknowsec/getSystem</a></li>
+</ul>
+<ol start="2">
+<li>Linux</li>
+</ol>
+<ul>
+<li>Linux系统提权脚本：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/mzet-/linux-exploit-suggester">https://github.com/mzet-/linux-exploit-suggester</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rebootuser/LinEnum">https://github.com/rebootuser/LinEnum</a></li>
+</ul>
+</li>
+<li>linux 内核提权EXP：<a target="_blank" rel="noopener" href="https://github.com/SecWiki/linux-kernel-exploits">https://github.com/SecWiki/linux-kernel-exploits</a>  </li>
+<li>提权工具套件（win、linux）：<a target="_blank" rel="noopener" href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite">https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite</a></li>
+<li>内核提权： <a target="_blank" rel="noopener" href="https://github.com/bcoles/kernel-exploits">https://github.com/bcoles/kernel-exploits</a></li>
+<li>非root权限监听Linux进程（监控定时任务比较有用）：<a target="_blank" rel="noopener" href="https://github.com/DominicBreuker/pspy">https://github.com/DominicBreuker/pspy</a></li>
+</ul>
+<h2 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h2><ul>
+<li>Windows密码暴力破解：<a target="_blank" rel="noopener" href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a></li>
+<li>mimikatz： <a target="_blank" rel="noopener" href="https://github.com/gentilkiwi/mimikatz">https://github.com/gentilkiwi/mimikatz</a></li>
+<li>powershell 内网利用脚本：<a target="_blank" rel="noopener" href="https://github.com/PowerShellMafia/PowerSploit">https://github.com/PowerShellMafia/PowerSploit</a></li>
+<li>powershell 红队内网渗透 <a target="_blank" rel="noopener" href="https://github.com/samratashok/nishang">https://github.com/samratashok/nishang</a></li>
+<li>powershell 实现的一些工具：<a target="_blank" rel="noopener" href="https://github.com/clymb3r/PowerShell">https://github.com/clymb3r/PowerShell</a></li>
+<li>powershell 反弹tcpshell <a target="_blank" rel="noopener" href="https://github.com/ZHacker13/ReverseTCPShell">https://github.com/ZHacker13/ReverseTCPShell</a></li>
+<li>powershell混淆：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/danielbohannon/Invoke-Obfuscation">https://github.com/danielbohannon/Invoke-Obfuscation</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tokyoneon/Chimera">https://github.com/tokyoneon/Chimera</a></li>
+</ul>
+</li>
+<li>内网渗透tips ：<a target="_blank" rel="noopener" href="https://github.com/Ridter/Intranet_Penetration_Tips">https://github.com/Ridter/Intranet_Penetration_Tips</a></li>
+<li>后门制作（kali已集成）： <a target="_blank" rel="noopener" href="https://github.com/secretsquirrel/the-backdoor-factory">https://github.com/secretsquirrel/the-backdoor-factory</a></li>
+<li>RAT：<a target="_blank" rel="noopener" href="https://github.com/Screetsec/TheFatRat">https://github.com/Screetsec/TheFatRat</a></li>
+<li>批量HASH传递：<a target="_blank" rel="noopener" href="https://github.com/Kevin-Robertson/Invoke-TheHash">https://github.com/Kevin-Robertson/Invoke-TheHash</a></li>
+<li>vSphere批量利用：<a target="_blank" rel="noopener" href="https://github.com/RicterZ/PySharpSphere">https://github.com/RicterZ/PySharpSphere</a></li>
+<li>图形化的MSF：<a target="_blank" rel="noopener" href="https://github.com/FunnyWolf/Viper">https://github.com/FunnyWolf/Viper</a></li>
+</ul>
+<h3 id="内网隧道："><a href="#内网隧道：" class="headerlink" title="内网隧道："></a>内网隧道：</h3><ol>
+<li>http隧道：</li>
+</ol>
+<ul>
+<li>加密流量版的reGeorg，原生的regeorg已经能够被设备识别了：<a target="_blank" rel="noopener" href="https://github.com/L-codes/Neo-reGeorg">https://github.com/L-codes/Neo-reGeorg</a></li>
+<li>node.js版的内网流量转发：<a target="_blank" rel="noopener" href="https://github.com/johncant/node-http-tunnel">https://github.com/johncant/node-http-tunnel</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/blackarrowsec/pivotnacci">https://github.com/blackarrowsec/pivotnacci</a></li>
+<li>不出网上线cs：<a target="_blank" rel="noopener" href="https://github.com/FunnyWolf/pystinger">https://github.com/FunnyWolf/pystinger</a></li>
+</ul>
+<ol start="2">
+<li>socks隧道</li>
+</ol>
+<ul>
+<li>frp内网流量转发，支持tcp、udp，不支持正向：<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a></li>
+<li>EarthWorm开启Socks5代理：<a target="_blank" rel="noopener" href="https://github.com/idlefire/ew">https://github.com/idlefire/ew</a></li>
+<li>带Meterpreter的HTTP加密通道流量转发：<a target="_blank" rel="noopener" href="https://github.com/nccgroup/ABPTTS">https://github.com/nccgroup/ABPTTS</a></li>
+<li>nps内网穿透：<a target="_blank" rel="noopener" href="https://github.com/ehang-io/nps">https://github.com/ehang-io/nps</a> （<a target="_blank" rel="noopener" href="https://shallowdream.cn/posts/1156.html#NPS%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7">nps使用教程</a>）</li>
+<li>端口转发：<a target="_blank" rel="noopener" href="https://github.com/EddieIvan01/iox">https://github.com/EddieIvan01/iox</a></li>
+<li>正向socks代理，支持设置用户名和密码：<a target="_blank" rel="noopener" href="https://github.com/jqqjj/socks5">https://github.com/jqqjj/socks5</a></li>
+<li>多级代理：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ph4ntonn/Stowaway">https://github.com/ph4ntonn/Stowaway</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/3proxy/3proxy">https://github.com/3proxy/3proxy</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="内网信息收集："><a href="#内网信息收集：" class="headerlink" title="内网信息收集："></a>内网信息收集：</h3><ul>
+<li>.net环境收集浏览器保存的密码信息：<a target="_blank" rel="noopener" href="https://github.com/djhohnstein/SharpWeb">https://github.com/djhohnstein/SharpWeb</a></li>
+<li>对Navicat,TeamViewer,FileZilla,WinSCP,Xmangager等产品进行解密：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/uknowsec/SharpDecryptPwd">https://github.com/uknowsec/SharpDecryptPwd</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sf197/GetPwd">https://github.com/sf197/GetPwd</a></li>
+</ul>
+</li>
+<li>python脚本获取系统软件各类密码：<a target="_blank" rel="noopener" href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a></li>
+<li>C#提取浏览器密码：<a target="_blank" rel="noopener" href="https://github.com/QAX-A-Team/BrowserGhost">https://github.com/QAX-A-Team/BrowserGhost</a></li>
+<li>跨平台提取浏览器密码 <a target="_blank" rel="noopener" href="https://github.com/moonD4rk/HackBrowserData">https://github.com/moonD4rk/HackBrowserData</a></li>
+<li>内网信息收集，支持cs扩展：<a target="_blank" rel="noopener" href="https://github.com/Adminisme/ServerScan">https://github.com/Adminisme/ServerScan</a></li>
+<li>寻找内网核心网段：<a target="_blank" rel="noopener" href="https://github.com/r35tart/GetIPinfo">https://github.com/r35tart/GetIPinfo</a></li>
+<li>内网端口扫描，部分自动指纹识别：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shadow1ng/fscan">https://github.com/shadow1ng/fscan</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/k8gege/Ladon">https://github.com/k8gege/Ladon</a></li>
+</ul>
+</li>
+<li>cs插件：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/gloxec/CrossC2">https://github.com/gloxec/CrossC2</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/z1un/Z1-AggressorScripts">https://github.com/z1un/Z1-AggressorScripts</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/pandasec888/taowu-cobalt-strike">https://github.com/pandasec888/taowu-cobalt-strike</a></li>
+<li></li>
+</ul>
+</li>
+<li>内网web指纹扫描：<a target="_blank" rel="noopener" href="https://github.com/Astartgo/easy-for-webscan">https://github.com/Astartgo/easy-for-webscan</a></li>
+</ul>
+<h3 id="免杀相关"><a href="#免杀相关" class="headerlink" title="免杀相关"></a>免杀相关</h3><ul>
+<li>powershell混淆：<a target="_blank" rel="noopener" href="https://github.com/danielbohannon/Invoke-Obfuscation">https://github.com/danielbohannon/Invoke-Obfuscation</a></li>
+<li>掩日：<a target="_blank" rel="noopener" href="https://github.com/1y0n/AV_Evasion_Tool">https://github.com/1y0n/AV_Evasion_Tool</a></li>
+</ul>
+<h3 id="域渗透"><a href="#域渗透" class="headerlink" title="域渗透"></a>域渗透</h3><ul>
+<li>域内杀伤链：<a target="_blank" rel="noopener" href="https://github.com/infosecn1nja/AD-Attack-Defense">https://github.com/infosecn1nja/AD-Attack-Defense</a></li>
+<li>AD CS audit：<a target="_blank" rel="noopener" href="https://github.com/GhostPack/PSPKIAudit">https://github.com/GhostPack/PSPKIAudit</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/GhostPack/Rubeus">https://github.com/GhostPack/Rubeus</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/C-Sto/gosecretsdump">https://github.com/C-Sto/gosecretsdump</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/SecureAuthCorp/impacket">https://github.com/SecureAuthCorp/impacket</a></li>
+<li>ADFind：<a target="_blank" rel="noopener" href="https://www.softpedia.com/get/Programming/Other-Programming-Files/AdFind.shtml">https://www.softpedia.com/get/Programming/Other-Programming-Files/AdFind.shtml</a></li>
+<li>Inveigh: 实测比较有效是python2和powershell版本<ul>
+<li>exe版本：<a target="_blank" rel="noopener" href="https://github.com/HamzaKHIATE/Toolbox/tree/master/Responder">https://github.com/HamzaKHIATE/Toolbox/tree/master/Responder</a></li>
+<li>python2：<a target="_blank" rel="noopener" href="https://github.com/SpiderLabs/Responder/">https://github.com/SpiderLabs/Responder/</a></li>
+<li>powershell版本：<a target="_blank" rel="noopener" href="https://github.com/Kevin-Robertson/Inveigh">https://github.com/Kevin-Robertson/Inveigh</a></li>
+<li>C#版本，需要自己编译，未成功运行：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/268521.html">InveighZero</a>: <a target="_blank" rel="noopener" href="https://github.com/Kevin-Robertson/InveighZero">https://github.com/Kevin-Robertson/InveighZero</a></li>
+</ul>
+</li>
+<li>bloodhound：<a target="_blank" rel="noopener" href="https://github.com/BloodHoundAD/BloodHound">https://github.com/BloodHoundAD/BloodHound</a></li>
+</ul>
+<h2 id="部分CVE-POC"><a href="#部分CVE-POC" class="headerlink" title="部分CVE POC"></a>部分CVE POC</h2><ul>
+<li>经常更新很全的cve poc收集：<a target="_blank" rel="noopener" href="https://github.com/nomi-sec/PoC-in-GitHub">https://github.com/nomi-sec/PoC-in-GitHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/fjserna/CVE-2015-7547">https://github.com/fjserna/CVE-2015-7547</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FiloSottile/CVE-2016-2107">https://github.com/FiloSottile/CVE-2016-2107</a></li>
+<li>CVE-2015-2426: <a target="_blank" rel="noopener" href="https://github.com/vlad902/hacking-team-windows-kernel-lpe">https://github.com/vlad902/hacking-team-windows-kernel-lpe</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/RhinoSecurityLabs/CVEs">https://github.com/RhinoSecurityLabs/CVEs</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Libraggbond/CVE-2018-3191">https://github.com/Libraggbond/CVE-2018-3191</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/gottburgm/Exploits">https://github.com/gottburgm/Exploits</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ym2011/POC-EXP">https://github.com/ym2011/POC-EXP</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://github.com/w1109790800/penetration">https://github.com/w1109790800/penetration</a> （CMS居多，还有某些工具）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/chompie1337/SMBGhost_RCE_PoC">https://github.com/chompie1337/SMBGhost_RCE_PoC</a> (CVE-2020-0796)</li>
+<li>docker逃逸：<a target="_blank" rel="noopener" href="https://github.com/Frichetten/CVE-2019-5736-PoC">https://github.com/Frichetten/CVE-2019-5736-PoC</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nomi-sec/PoC-in-GitHub">https://github.com/nomi-sec/PoC-in-GitHub</a></li>
+</ul>
+<h2 id="Java-中间件Exp"><a href="#Java-中间件Exp" class="headerlink" title="Java 中间件Exp"></a>Java 中间件Exp</h2><ul>
+<li>ysoserial：<a target="_blank" rel="noopener" href="https://github.com/frohoff/ysoserial">https://github.com/frohoff/ysoserial</a>  </li>
+<li>JBOSS： <a target="_blank" rel="noopener" href="https://github.com/joaomatosf/jexboss">https://github.com/joaomatosf/jexboss</a> </li>
+<li>struts2 Python2扫描脚本（使用时有中文乱码，需要在字符串前加u）： <a target="_blank" rel="noopener" href="https://github.com/Lucifer1993/struts-scan">https://github.com/Lucifer1993/struts-scan</a></li>
+<li>weblogic <ul>
+<li>漏扫脚本： <a target="_blank" rel="noopener" href="https://github.com/dr0op/WeblogicScan">https://github.com/dr0op/WeblogicScan</a></li>
+<li>密码解密： <ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/NetSPI/WebLogicPasswordDecryptor">https://github.com/NetSPI/WebLogicPasswordDecryptor</a></li>
+<li>UI版：<a target="_blank" rel="noopener" href="https://github.com/Ch1ngg/WebLogicPasswordDecryptorUi">https://github.com/Ch1ngg/WebLogicPasswordDecryptorUi</a></li>
+</ul>
+</li>
+<li>EXP：<a target="_blank" rel="noopener" href="https://github.com/21superman/weblogic_exploit">https://github.com/21superman/weblogic_exploit</a></li>
+</ul>
+</li>
+<li>SpringBootExploit： <a target="_blank" rel="noopener" href="https://github.com/LandGrey/SpringBootVulExploit">https://github.com/LandGrey/SpringBootVulExploit</a></li>
+<li>solr漏洞利用：<a target="_blank" rel="noopener" href="https://github.com/Imanfeng/Apache-Solr-RCE">https://github.com/Imanfeng/Apache-Solr-RCE</a></li>
+<li>fastjson利用总结：<a target="_blank" rel="noopener" href="https://github.com/safe6Sec/Fastjson">https://github.com/safe6Sec/Fastjson</a></li>
+<li>集成了内存马和headr命令执行的JNDI：<a target="_blank" rel="noopener" href="https://github.com/feihong-cs/JNDIExploit">https://github.com/feihong-cs/JNDIExploit</a></li>
+<li>shiro反序列化：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/feihong-cs/ShiroExploit_GUI">https://github.com/feihong-cs/ShiroExploit_GUI</a><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wyzxxz/shiro_rce">https://github.com/wyzxxz/shiro_rce</a></li>
+<li>集成内存shell和回显利用：<a target="_blank" rel="noopener" href="https://github.com/j1anFen/shiro_attack">https://github.com/j1anFen/shiro_attack</a></li>
+</ul>
+</li>
+<li>gadget检查：<a target="_blank" rel="noopener" href="https://github.com/wyzxxz/shiro_rce_tool">https://github.com/wyzxxz/shiro_rce_tool</a></li>
+</ul>
+</li>
+<li>内存🐴：<ul>
+<li>springboot： <a target="_blank" rel="noopener" href="https://github.com/threedr3am/ZhouYu">https://github.com/threedr3am/ZhouYu</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="Java安全学习"><a href="#Java安全学习" class="headerlink" title="Java安全学习"></a>Java安全学习</h2><ul>
+<li>多个java库漏洞代码实践： <a target="_blank" rel="noopener" href="https://github.com/threedr3am/learnjavabug/">https://github.com/threedr3am/learnjavabug/</a></li>
+<li>Java RCE 回显测试代码 <a target="_blank" rel="noopener" href="https://github.com/feihong-cs/Java-Rce-Echo">https://github.com/feihong-cs/Java-Rce-Echo</a></li>
+<li>Java 反序列化cheat sheet: <a target="_blank" rel="noopener" href="https://github.com/GrrrDog/Java-Deserialization-Cheat-Sheet">https://github.com/GrrrDog/Java-Deserialization-Cheat-Sheet</a></li>
+<li>java 反序列化Gadget学习：<a target="_blank" rel="noopener" href="https://github.com/0range228/Gadgets">https://github.com/0range228/Gadgets</a></li>
+<li>内存马：<a target="_blank" rel="noopener" href="https://github.com/bitterzzZZ/MemoryShellLearn">https://github.com/bitterzzZZ/MemoryShellLearn</a></li>
+</ul>
+<h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><ul>
+<li>mysql monitor：<a target="_blank" rel="noopener" href="https://github.com/fupinglee/MySQLMonitor">https://github.com/fupinglee/MySQLMonitor</a></li>
+</ul>
+<h2 id="数据库利用"><a href="#数据库利用" class="headerlink" title="数据库利用"></a>数据库利用</h2><ul>
+<li>基于redis主从复制无损上传文件：<a target="_blank" rel="noopener" href="https://github.com/r35tart/RedisWriteFile">https://github.com/r35tart/RedisWriteFile</a></li>
+<li>数据库一键getshell：<a target="_blank" rel="noopener" href="https://github.com/SafeGroceryStore/MDUT">https://github.com/SafeGroceryStore/MDUT</a></li>
+<li>伪MySQL服务器读取任意文件：<a target="_blank" rel="noopener" href="https://github.com/allyshka/Rogue-MySql-Server">https://github.com/allyshka/Rogue-MySql-Server</a> </li>
+<li><a target="_blank" rel="noopener" href="https://github.com/uknowsec/SharpSQLTools">https://github.com/uknowsec/SharpSQLTools</a></li>
+</ul>
+<h2 id="Webshell管理工具"><a href="#Webshell管理工具" class="headerlink" title="Webshell管理工具"></a>Webshell管理工具</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://doc.u0u.us/zh-hans/getting_started/index.html">蚁剑</a>：<a target="_blank" rel="noopener" href="https://github.com/AntSwordProject/antSword">https://github.com/AntSwordProject/antSword</a></li>
+<li>冰蝎：<a target="_blank" rel="noopener" href="https://github.com/rebeyond/Behinder">https://github.com/rebeyond/Behinder</a></li>
+<li>哥斯拉（支持jsp和reGeorg内存版）：<a target="_blank" rel="noopener" href="https://github.com/BeichenDream/Godzilla">https://github.com/BeichenDream/Godzilla</a></li>
+<li>天蝎：<a target="_blank" rel="noopener" href="https://github.com/shack2/skyscorpion">https://github.com/shack2/skyscorpion</a></li>
+</ul>
+<h2 id="APP-测试"><a href="#APP-测试" class="headerlink" title="APP 测试"></a>APP 测试</h2><ul>
+<li>快速提取app中的资产信息：<a target="_blank" rel="noopener" href="https://github.com/kelvinBen/AppInfoScanner">https://github.com/kelvinBen/AppInfoScanner</a></li>
+<li>安卓相关项目和文章合集 <a target="_blank" rel="noopener" href="https://github.com/alphaSeclab/android-security">https://github.com/alphaSeclab/android-security</a></li>
+<li>jadx 安卓apk代码逆向：<a target="_blank" rel="noopener" href="https://github.com/skylot/jadx">https://github.com/skylot/jadx</a></li>
+<li>app加解密数据包+burp插件 <a target="_blank" rel="noopener" href="https://github.com/lyxhh/lxhToolHTTPDecrypt">https://github.com/lyxhh/lxhToolHTTPDecrypt</a></li>
+<li>APP动态测试框架 <a target="_blank" rel="noopener" href="https://github.com/MobSF/Mobile-Security-Framework-MobSF">https://github.com/MobSF/Mobile-Security-Framework-MobSF</a></li>
+<li>完整adb用法：<a target="_blank" rel="noopener" href="https://github.com/mzlogin/awesome-adb">https://github.com/mzlogin/awesome-adb</a></li>
+</ul>
+<h2 id="渗透辅助平台-工具"><a href="#渗透辅助平台-工具" class="headerlink" title="渗透辅助平台/工具"></a>渗透辅助平台/工具</h2><ul>
+<li>知道创宇远程漏洞测试框架：<a target="_blank" rel="noopener" href="https://github.com/knownsec/Pocsuite">https://github.com/knownsec/Pocsuite</a></li>
+<li>python爬虫代理池：<a target="_blank" rel="noopener" href="https://github.com/jhao104/proxy_pool">https://github.com/jhao104/proxy_pool</a> </li>
+<li>自建无回显平台（DNS、HTTP、XSS） <a target="_blank" rel="noopener" href="https://github.com/opensec-cn/vtest">https://github.com/opensec-cn/vtest</a></li>
+<li>XSS 自建平台：</li>
+</ul>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/firesunCN/BlueLotus_XSSReceiver">https://github.com/firesunCN/BlueLotus_XSSReceiver</a> （原项目代码已撤销，可点击fork查看其他人保存的源码）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mandatoryprogrammer/xsshunter">https://github.com/mandatoryprogrammer/xsshunter</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/78778443/xssplatform">https://github.com/78778443/xssplatform</a></li>
+</ol>
+<ul>
+<li>tp漏洞扫描：<a target="_blank" rel="noopener" href="https://github.com/Lotus6/ThinkphpGUI">https://github.com/Lotus6/ThinkphpGUI</a></li>
+<li><a target="_blank" rel="noopener" href="https://amp.kitploit.com/2019/02/ssrfmap-automatic-ssrf-fuzzer-and.html?amp=1&m=">自动化SSRF测试</a>：<a target="_blank" rel="noopener" href="https://github.com/swisskyrepo/SSRFmap">https://github.com/swisskyrepo/SSRFmap</a></li>
+<li>验证码AI训练识别：<a target="_blank" rel="noopener" href="https://github.com/kerlomz/captcha_trainer">https://github.com/kerlomz/captcha_trainer</a>  </li>
+<li>flash xss 测试：<a target="_blank" rel="noopener" href="https://github.com/cure53/flashbang">https://github.com/cure53/flashbang</a></li>
+<li>JWT token破解：<a target="_blank" rel="noopener" href="https://github.com/brendan-rius/c-jwt-cracker">https://github.com/brendan-rius/c-jwt-cracker</a></li>
+<li>自动化扫描JS中的API： <a target="_blank" rel="noopener" href="https://github.com/rtcatc/Packer-Fuzzer">https://github.com/rtcatc/Packer-Fuzzer</a></li>
+<li>子域名接管指纹：<a target="_blank" rel="noopener" href="https://github.com/EdOverflow/can-i-take-over-xyz">https://github.com/EdOverflow/can-i-take-over-xyz</a></li>
+<li>火眼公司windows测试虚拟机：<a target="_blank" rel="noopener" href="https://github.com/fireeye/commando-vm">https://github.com/fireeye/commando-vm</a></li>
+</ul>
+<h2 id="甲方安全"><a href="#甲方安全" class="headerlink" title="甲方安全"></a>甲方安全</h2><ul>
+<li>巡风漏洞扫描器：<a target="_blank" rel="noopener" href="https://github.com/ysrc/xunfeng">https://github.com/ysrc/xunfeng</a></li>
+<li>宜信洞察 <a target="_blank" rel="noopener" href="https://github.com/creditease-sec/insight">https://github.com/creditease-sec/insight</a></li>
+<li>陌陌风控 <a target="_blank" rel="noopener" href="https://github.com/momosecurity/aswan">https://github.com/momosecurity/aswan</a></li>
+<li>HIDS：<a target="_blank" rel="noopener" href="https://github.com/ossec/ossec-hids">https://github.com/ossec/ossec-hids</a></li>
+<li>以Nginx为核心高性能服务器Openresty：<a target="_blank" rel="noopener" href="https://github.com/openresty/openresty">https://github.com/openresty/openresty</a>  </li>
+<li>Nginx安全配置检查：<a target="_blank" rel="noopener" href="https://github.com/yandex/gixy">https://github.com/yandex/gixy</a>  </li>
+<li>github监控工具：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/VKSRC/Github-Monitor">https://github.com/VKSRC/Github-Monitor</a>    </li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FeeiCN/GSIL">https://github.com/FeeiCN/GSIL</a></li>
+<li>携程云安全：<a target="_blank" rel="noopener" href="https://security.ctrip.com/">https://security.ctrip.com/</a></li>
+</ul>
+</li>
+<li>开源蜜罐合集：<a target="_blank" rel="noopener" href="https://github.com/paralax/awesome-honeypots">https://github.com/paralax/awesome-honeypots</a></li>
+</ul>
+<h2 id="其他知识整理"><a href="#其他知识整理" class="headerlink" title="其他知识整理"></a>其他知识整理</h2><ul>
+<li>P牛整理安全思维脑图：<a target="_blank" rel="noopener" href="https://github.com/phith0n/Mind-Map">https://github.com/phith0n/Mind-Map</a></li>
+<li>内网渗透知识tips：<a target="_blank" rel="noopener" href="https://github.com/Ridter/Intranet_Penetration_Tips">https://github.com/Ridter/Intranet_Penetration_Tips</a></li>
+<li>面试经验：<a target="_blank" rel="noopener" href="https://github.com/Leezj9671/Pentest_Interview">https://github.com/Leezj9671/Pentest_Interview</a></li>
+<li>面试知识点： <a target="_blank" rel="noopener" href="https://www.yuque.com/books/share/bd8433e2-3682-4bf9-bbf7-cb5070764079">https://www.yuque.com/books/share/bd8433e2-3682-4bf9-bbf7-cb5070764079</a></li>
+</ul>
+
+        </article>
+        
+        
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2020-2021 Alex
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+</div>
+<div class="full-toc">
+    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

